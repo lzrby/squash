@@ -16,7 +16,11 @@
 - `--ball="<ball color>"` flag is used when play ball was red or blue. Yellow color is default.
 - Also see `./logger.py --help`.
 
-### Get ratings
+### get ratings
 
 - Run from terminal at repo root: `./get_ratings.py --day=<yyyy-mm-dd>`. This scripts prints current ratings for day from input at 00:00.
 - Also you can see `./get_ratings.py --help`.
+
+### ui
+
+- `npm run deploy` to update rating on [lzrby.github.io/squash](http://lzrby.github.io/squash)
