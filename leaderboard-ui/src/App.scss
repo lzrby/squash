@@ -1,0 +1,164 @@
+@import url('https://fonts.googleapis.com/css?family=Nunito+Sans:600,700');
+
+html {
+  box-sizing: border-box;
+  font-family: 'Nunito Sans', sans-serif;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+.app {
+  position: relative;
+  max-width: 700px;
+  margin: 10px auto;
+  box-shadow: 10px 10px 40px 23px rgba(224, 224, 224, 1);
+  border-radius: 12px;
+
+  .header {
+    display: flex;
+    align-items: center;
+    padding: 10px 25px;
+    color: #e8ecfd;
+    background-image: linear-gradient(
+      to right,
+      #5b7cf9,
+      #5274f4,
+      #4a6bef,
+      #4163e9,
+      #375be4
+    );
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+
+    &__icon {
+      max-width: 50px;
+      height: auto;
+      opacity: 0.7;
+    }
+
+    &__title {
+      margin-left: auto;
+      font-size: 25px;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 4.5px;
+
+      span {
+        display: block;
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 1.5px;
+      }
+    }
+  }
+
+  .list {
+    display: flex;
+    flex-direction: column;
+    height: 650px;
+    padding: 20px 0 40px;
+    overflow-y: scroll;
+
+    &__person {
+      display: flex;
+      min-height: 80px;
+      align-items: center;
+      padding: 10px 15px;
+      margin: 10px 15px;
+      border-radius: 4px;
+      box-shadow: 0px 2px 18px 7px rgba(189, 189, 189, 0.21);
+      transition: all 0.25s linear;
+      cursor: pointer;
+      animation: fadeIn 0.5s 0.1s both;
+
+      .person__image {
+        position: relative;
+        max-width: 77px;
+        height: auto;
+        margin-right: 22px;
+        border: 10px solid #f5f6fa;
+        border-radius: 50%;
+      }
+
+      .person__name {
+        font-size: 23px;
+        color: #979cb0;
+      }
+
+      .person__rating {
+        margin-left: auto;
+        font-size: 26px;
+        fobnt-weight: 700;
+        color: #4cd5af;
+
+        span {
+          font-size: 15px;
+        }
+      }
+
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+
+    &::-webkit-scrollbar {
+      width: 12px;
+      cursor: pointer;
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: #fefefe;
+      border-radius: 12px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      height: 68px;
+      border-radius: 14px;
+      background-color: #f1f2f6;
+      cursor: pointer;
+    }
+  }
+
+  .loading-indicator {
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    top: 300px;
+    left: 0;
+    right: 0;
+
+  }
+}
+
+@media screen and (max-width: 430px) {
+  .app {
+    max-width: 320px;
+
+    .list__person {
+      padding: 4px 8px;
+
+      .person__image {
+        max-width: 56px;
+        border-width: 4px;
+      }
+
+      .person__name {
+        font-size: 16px;
+      }
+
+      .person__rating {
+        font-size: 18px;
+      }
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+}
