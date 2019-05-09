@@ -71,7 +71,7 @@ def update_ratings_with_game(ratings, game):
 def count_ratings(date):
     games = pd.read_csv('games.csv')
     sorted_games = games.sort_values(['Date', 'Game of the day'])
-    proper_games = sorted_games[sorted_games['Date'] < date]
+    proper_games = sorted_games[sorted_games['Date'] <= date]
     all_players = list(set(proper_games['Winner'].tolist() + proper_games['Looser'].tolist()))
     data = {'Rating':[1400.00 for i in range(len(all_players))]}
     result = pd.DataFrame(data, index=all_players)

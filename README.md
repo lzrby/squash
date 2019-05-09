@@ -18,7 +18,7 @@
 
 ### get ratings
 
-- Run from terminal at repo root: `./get_ratings.py --day=<yyyy-mm-dd>`. This scripts prints current ratings for day from input at 00:00.
+- Run from terminal at repo root: `./get_ratings.py --day=<yyyy-mm-dd>`. This scripts prints current ratings for day from input at 23:59:59.
 - Also you can see `./get_ratings.py --help`.
 
 ### ui
