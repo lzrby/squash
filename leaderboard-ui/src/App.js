@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.scss';
-import data from './raiting.json';
+import data from './rating.json';
 
 const { PUBLIC_URL } = process.env;
 
