@@ -9,7 +9,7 @@ import numpy as np
 import pandas as pd
 
 from common import date_is_correct
-
+import constants
 
 FLAGS = flags.FLAGS
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -56,8 +56,7 @@ def update_ratings_with_game(ratings, game):
     winner_sets = np.max(sets)
     looser_sets = np.min(sets)
 
-    ball_coeffs = {'blue': 0.5, 'red': 0.7, 'yellow': 1.0}
-    ball_coeff = ball_coeffs[game.Ball]
+    ball_coeff = constants.BALL_COEFFS[game.Ball]
 
     winner_rating = ratings.loc[winner].Rating
     looser_rating = ratings.loc[looser].Rating
@@ -78,7 +77,7 @@ def count_ratings(date):
     sorted_games = games.sort_values(['Date', 'Game of the day'])
     proper_games = sorted_games[sorted_games['Date'] <= date]
     all_players = list(set(proper_games['Winner'].tolist() + proper_games['Looser'].tolist()))
-    data = {'Rating': [1400.00 for i in range(len(all_players))]}
+    data = {'Rating': [constants.DEFAULT_RATING for i in range(len(all_players))]}
     start_ratings = pd.DataFrame(data, index=all_players)
     n_games = proper_games.shape[0]
     ratings_log = [(proper_games.loc[0]['Date'], start_ratings)]
@@ -99,9 +98,9 @@ def save_ratings_to_json(ratings):
 
 def save_ratings_history_to_json(ratings_log):
     json_list = []
-    for ratings in ratings_log:
-        ratings_dict = {name: int(np.round(ratings[1].loc[name]['Rating'])) for name in ratings[1].index}
-        json_list.append({'date': ratings[0], 'ratings': ratings_dict})
+    for (date, ratings) in ratings_log:
+        ratings_dict = {name: int(np.round(ratings.loc[name]['Rating'])) for name in ratings.index}
+        json_list.append({'date': date, 'ratings': ratings_dict})
     json_filename = os.path.join(repo_root_dir, 'leaderboard-ui/src/ratings_history.json')
     with open(json_filename, 'w') as json_file:
         json.dump(json_list, json_file, indent=2)

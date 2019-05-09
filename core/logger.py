@@ -58,8 +58,8 @@ def score_is_correct(score):
 
 
 def main(_):
-    games_scv_filepath = os.path.join(repo_root_dir, 'data/games.csv')
-    games = pd.read_csv(games_scv_filepath)
+    games_csv_filepath = os.path.join(repo_root_dir, 'data/games.csv')
+    games = pd.read_csv(games_csv_filepath)
 
     game_to_add = {}
 
@@ -111,7 +111,7 @@ def main(_):
         return
 
     games = games.append(game_to_add, ignore_index=True)
-    games.to_csv(games_scv_filepath, index=False)
+    games.to_csv(games_csv_filepath, index=False)
     print('Matchup adding succeeded')
 
 
