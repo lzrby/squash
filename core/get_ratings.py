@@ -1,14 +1,19 @@
 #!/usr/bin/env python3
 
 from datetime import datetime
+import json
+import os
 
+from absl import flags, app
 import numpy as np
 import pandas as pd
-from absl import flags, app
 
 from common import date_is_correct
 
+
 FLAGS = flags.FLAGS
+script_dir = os.path.dirname(os.path.abspath(__file__))
+repo_root_dir = os.path.join(script_dir, '..')
 
 flags.DEFINE_string('day', None, 'Day of leaderboard in format yyyy-mm-dd.')
 
@@ -79,6 +84,13 @@ def count_ratings(date):
     return result
 
 
+def save_to_json(ratings):
+    json_list = [{'name': name, 'rating': int(np.round(ratings.loc[name]['Rating']))} for name in ratings.index]
+    json_filename = os.path.join(repo_root_dir, 'leaderboard-ui/src/rating.json')
+    with open(json_filename, 'w') as json_file:
+        json.dump(json_list, json_file, indent=2)
+
+
 def main(_):
     if FLAGS.day is None:
         cur_date = datetime.now()
@@ -87,11 +99,13 @@ def main(_):
         cur_day = '0' * (cur_date.day < 10) + str(cur_date.day)
         cur_day_of_year = '{}-{}-{}'.format(cur_year, cur_month, cur_day)
         ratings = count_ratings(cur_day_of_year)
+        save_to_json(ratings)
         print(ratings)
     elif not date_is_correct(FLAGS.day):
         print('Date is incorrect or it has wrong format')
     else:
         ratings = count_ratings(FLAGS.day)
+        save_to_json(ratings)
         print(ratings)
 
 
