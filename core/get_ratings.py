@@ -22,15 +22,15 @@ def win_set_probability(my_rating, opponent_rating):
     return 1.0 / (1 + 10 ** ((opponent_rating - my_rating) / 400))
 
 
-def binom_coeff(k, n):
+def C(k, n):
     return np.math.factorial(n) / np.math.factorial(k) / np.math.factorial(n - k)
 
 
 def expected_sets_won(my_rating, opponent_rating, n_sets):
-    win_probability = win_set_probability(my_rating, opponent_rating)
-    win_sets_probabilities = np.array([binom_coeff(i, n_sets) * (win_probability ** i) * ((1 - win_probability) ** (n_sets - i)) for i in range(n_sets + 1)])
-    sets_counts = np.arange(n_sets + 1)
-    return np.sum(win_sets_probabilities * sets_counts)
+    win_prob = win_set_probability(my_rating, opponent_rating)
+    sets = np.arange(n_sets + 1)
+    win_sets_probs = np.array([C(i, n_sets) * (win_prob ** i) * ((1 - win_prob) ** (n_sets - i)) for i in sets])
+    return np.sum(win_sets_probs * sets)
 
 
 def count_new_rating(old_rating, expected_sets_won, real_sets_won, ball_coeff):
