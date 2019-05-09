@@ -66,8 +66,10 @@ def update_ratings_with_game(ratings, game):
                                                          winner_sets, looser_sets,
                                                          ball_coeff,
                                                          winner_rating, looser_rating)
-    ratings.loc[winner].Rating = winner_new_rating
-    ratings.loc[looser].Rating = looser_new_rating
+    new_ratings = ratings.copy(deep=True)
+    new_ratings.loc[winner].Rating = winner_new_rating
+    new_ratings.loc[looser].Rating = looser_new_rating
+    return new_ratings
 
 
 def count_ratings(date):
@@ -77,19 +79,33 @@ def count_ratings(date):
     proper_games = sorted_games[sorted_games['Date'] <= date]
     all_players = list(set(proper_games['Winner'].tolist() + proper_games['Looser'].tolist()))
     data = {'Rating': [1400.00 for i in range(len(all_players))]}
-    result = pd.DataFrame(data, index=all_players)
+    start_ratings = pd.DataFrame(data, index=all_players)
     n_games = proper_games.shape[0]
+    ratings_log = [(proper_games.loc[0]['Date'], start_ratings)]
     for i in range(n_games):
-        update_ratings_with_game(result, proper_games.loc[i])
-    result = result.sort_values(['Rating'], ascending=False)
-    return result
+        new_ratings = update_ratings_with_game(ratings_log[-1][1], proper_games.loc[i])
+        new_ratings = new_ratings.sort_values(['Rating'], ascending=False)
+        ratings_log.append((proper_games.loc[i]['Date'], new_ratings.copy(deep=True)))
+    return ratings_log[-1][1], ratings_log
 
 
-def save_to_json(ratings):
+def save_ratings_to_json(ratings):
     json_list = [{'name': name, 'rating': int(np.round(ratings.loc[name]['Rating']))} for name in ratings.index]
     json_filename = os.path.join(repo_root_dir, 'leaderboard-ui/src/rating.json')
     with open(json_filename, 'w') as json_file:
         json.dump(json_list, json_file, indent=2)
+        json_file.write('\n')
+
+
+def save_ratings_history_to_json(ratings_log):
+    json_list = []
+    for ratings in ratings_log:
+        ratings_dict = {name: int(np.round(ratings[1].loc[name]['Rating'])) for name in ratings[1].index}
+        json_list.append({'date': ratings[0], 'ratings': ratings_dict})
+    json_filename = os.path.join(repo_root_dir, 'leaderboard-ui/src/ratings_history.json')
+    with open(json_filename, 'w') as json_file:
+        json.dump(json_list, json_file, indent=2)
+        json_file.write('\n')
 
 
 def main(_):
@@ -99,13 +115,15 @@ def main(_):
         cur_month = '0' * (cur_date.month < 10) + str(cur_date.month)
         cur_day = '0' * (cur_date.day < 10) + str(cur_date.day)
         cur_day_of_year = '{}-{}-{}'.format(cur_year, cur_month, cur_day)
-        ratings = count_ratings(cur_day_of_year)
-        save_to_json(ratings)
+        ratings, ratings_log = count_ratings(cur_day_of_year)
+        save_ratings_to_json(ratings)
+        save_ratings_history_to_json(ratings_log)
     elif not date_is_correct(FLAGS.day):
         print('Date is incorrect or it has wrong format')
     else:
-        ratings = count_ratings(FLAGS.day)
-        save_to_json(ratings)
+        ratings, ratings_log = count_ratings(FLAGS.day)
+        save_ratings_to_json(ratings)
+        save_ratings_history_to_json(ratings_log)
 
 
 if __name__ == '__main__':
