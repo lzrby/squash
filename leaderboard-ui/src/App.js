@@ -1,23 +1,24 @@
 import React from 'react';
 import './App.scss';
 import data from './raiting.json';
-import { DEFAULT_AVATAR, CUP_LOGO } from './constants';
 
-const Player = ({ name, image, rating }) => (
+const { PUBLIC_URL } = process.env;
+
+const Player = ({ name, rating }) => (
   <div className="list__person">
-    <img className="person__image" src={image} alt={name} />
+    <img
+      className="person__image"
+      src={`${PUBLIC_URL}/avatars/${name}.jpg`}
+      alt={name}
+    />
     <p className="person__name">{name}</p>
     <p className="person__rating">{rating}</p>
   </div>
 );
 
-Player.defaultProps = {
-  image: DEFAULT_AVATAR,
-};
-
 const Header = () => (
   <div className="header">
-    <img className="header__icon" src={CUP_LOGO} alt="logo" />
+    <img className="header__icon" src={`${PUBLIC_URL}/cup.png`} alt="logo" />
     <h1 className="header__title">
       Squash
       <span>Leaderboard</span>
