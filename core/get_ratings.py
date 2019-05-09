@@ -10,7 +10,7 @@ from common import date_is_correct
 
 FLAGS = flags.FLAGS
 
-flags.DEFINE_string('day', None, 'Day of the matchup in format yyyy-mm-dd.')
+flags.DEFINE_string('day', None, 'Day of leaderboard in format yyyy-mm-dd.')
 
 
 def win_set_probability(my_rating, opponent_rating):
