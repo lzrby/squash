@@ -71,7 +71,8 @@ def update_ratings_with_game(ratings, game):
 
 
 def count_ratings(date):
-    games = pd.read_csv('games.csv')
+    game_data_filepath = os.path.join(repo_root_dir, 'data/games.csv')
+    games = pd.read_csv(game_data_filepath)
     sorted_games = games.sort_values(['Date', 'Game of the day'])
     proper_games = sorted_games[sorted_games['Date'] <= date]
     all_players = list(set(proper_games['Winner'].tolist() + proper_games['Looser'].tolist()))
@@ -100,13 +101,11 @@ def main(_):
         cur_day_of_year = '{}-{}-{}'.format(cur_year, cur_month, cur_day)
         ratings = count_ratings(cur_day_of_year)
         save_to_json(ratings)
-        print(ratings)
     elif not date_is_correct(FLAGS.day):
         print('Date is incorrect or it has wrong format')
     else:
         ratings = count_ratings(FLAGS.day)
         save_to_json(ratings)
-        print(ratings)
 
 
 if __name__ == '__main__':

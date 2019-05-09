@@ -2,6 +2,7 @@
 
 from collections import Counter
 from datetime import datetime
+import os
 import sys
 
 import pandas as pd
@@ -10,6 +11,8 @@ from absl import flags, app
 from common import date_is_correct
 
 FLAGS = flags.FLAGS
+script_dir = os.path.dirname(os.path.abspath(__file__))
+repo_root_dir = os.path.join(script_dir, '..')
 
 flags.DEFINE_string('day', None, 'Day of the matchup in format yyyy-mm-dd. If not set, current day will be used')
 flags.DEFINE_string('winner', None, 'Name of the winner (player with lower rating value if drawn matchup is adding)')
@@ -55,8 +58,8 @@ def score_is_correct(score):
 
 
 def main(_):
-    games_scv_filename = 'games.csv'
-    games = pd.read_csv(games_scv_filename)
+    games_scv_filepath = os.path.join(repo_root_dir, 'data/games.csv')
+    games = pd.read_csv(games_scv_filepath)
 
     game_to_add = {}
 
@@ -108,7 +111,7 @@ def main(_):
         return
 
     games = games.append(game_to_add, ignore_index=True)
-    games.to_csv(games_scv_filename, index=False)
+    games.to_csv(games_scv_filepath, index=False)
     print('Matchup adding succeeded')
 
 
