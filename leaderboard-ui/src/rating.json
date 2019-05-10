@@ -1,26 +1,32 @@
 [
   {
     "name": "klicunou",
-    "rating": 1526
+    "rating": 1611,
+    "sets": 27
   },
   {
     "name": "lucky_looser",
-    "rating": 1477
+    "rating": 1487,
+    "sets": 33
   },
   {
     "name": "Drapegnik",
-    "rating": 1392
+    "rating": 1396,
+    "sets": 18
   },
   {
     "name": "iraborsch",
-    "rating": 1382
+    "rating": 1368,
+    "sets": 6
   },
   {
     "name": "uladbohdan",
-    "rating": 1381
+    "rating": 1362,
+    "sets": 6
   },
   {
     "name": "BG_grab",
-    "rating": 1243
+    "rating": 1177,
+    "sets": 36
   }
 ]
