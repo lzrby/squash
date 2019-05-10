@@ -97,9 +97,21 @@ def count_ratings(date):
 
 
 def save_ratings_to_json(ratings, ratings_log, set_counts):
-    json_list = [{'name': name,
-                  'rating': int(np.round(ratings.loc[name]['Rating'])),
-                  'sets': int(set_counts[name])} for name in ratings.index]
+    json_list = []
+    for name in ratings.index:
+        dict_to_save = {'name': name,
+                        'rating': int(np.round(ratings.loc[name]['Rating'])),
+                        'sets': int(set_counts[name])}
+        for i in range(len(ratings_log)):
+            cur_date, cur_ratings = ratings_log[i]
+            if cur_date == ratings_log[-1][0]:
+                if i != 0:
+                    prev_day, prev_ratings = ratings_log[i-1]
+                    dict_to_save['prev_rating'] = int(np.round(prev_ratings.loc[name]['Rating']))
+                else:
+                    dict_to_save['prev_rating'] = int(np.round(cur_ratings.loc[name]['Rating']))
+                break
+        json_list.append(dict_to_save)
     json_filename = os.path.join(repo_root_dir, 'leaderboard-ui/src/rating.json')
     with open(json_filename, 'w') as json_file:
         json.dump(json_list, json_file, indent=2)
@@ -127,13 +139,11 @@ def main(_):
         ratings, ratings_log, set_counts = count_ratings(cur_day_of_year)
         save_ratings_to_json(ratings, ratings_log, set_counts)
         save_ratings_history_to_json(ratings_log)
-        print(set_counts)
     elif not date_is_correct(FLAGS.day):
         print('Date is incorrect or it has wrong format')
     else:
         ratings, ratings_log, set_counts = count_ratings(FLAGS.day)
-        save_ratings_to_json(ratings, ratings_log, set_counts)
-        save_ratings_history_to_json(ratings_log)
+        print(ratings)
 
 
 if __name__ == '__main__':
