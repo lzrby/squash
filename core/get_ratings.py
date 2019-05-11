@@ -83,7 +83,7 @@ def count_ratings(date):
     games = pd.read_csv(game_data_filepath)
     sorted_games = games.sort_values(['Date', 'Game of the day'])
     proper_games = sorted_games[sorted_games['Date'] <= date]
-    all_players = list(sorted(set(proper_games['Winner'].tolist() + proper_games['Looser'].tolist())))
+    all_players = list(set(proper_games['Winner'].tolist() + proper_games['Looser'].tolist()))
     data = {'Rating': [constants.DEFAULT_RATING for i in range(len(all_players))]}
     start_ratings = pd.DataFrame(data, index=all_players)
     n_games = proper_games.shape[0]
@@ -121,7 +121,7 @@ def save_ratings_to_json(ratings, ratings_log, set_counts):
 def save_ratings_history_to_json(ratings_log):
     json_list = []
     for (date, ratings) in ratings_log:
-        ratings_dict = {name: int(np.round(ratings.loc[name]['Rating'])) for name in ratings.index}
+        ratings_dict = {name: int(np.round(ratings.loc[name]['Rating'])) for name in sorted(ratings.index)}
         json_list.append({'date': date, 'ratings': ratings_dict})
     json_filename = os.path.join(repo_root_dir, 'leaderboard-ui/src/ratings_history.json')
     with open(json_filename, 'w') as json_file:
