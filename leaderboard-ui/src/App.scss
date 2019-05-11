@@ -12,6 +12,7 @@ html {
 }
 
 .app {
+  height: 95vh;
   position: relative;
   max-width: 700px;
   margin: 10px auto;
@@ -19,18 +20,20 @@ html {
   border-radius: 12px;
 
   .header {
+    max-height: 12vh;
     display: flex;
     align-items: center;
     padding: 10px 25px;
     color: #e8ecfd;
-    background-image: linear-gradient(
-      to right,
-      #5b7cf9,
-      #5274f4,
-      #4a6bef,
-      #4163e9,
-      #375be4
-    );
+    background-image:
+      linear-gradient(
+        to right,
+        #5b7cf9,
+        #5274f4,
+        #4a6bef,
+        #4163e9,
+        #375be4
+      );
     border-top-left-radius: 12px;
     border-top-right-radius: 12px;
 
@@ -59,7 +62,7 @@ html {
   .list {
     display: flex;
     flex-direction: column;
-    height: 650px;
+    max-height: 83vh;
     padding: 20px 0 40px;
     overflow-y: scroll;
 
@@ -70,9 +73,8 @@ html {
       padding: 10px 15px;
       margin: 10px 15px;
       border-radius: 4px;
-      box-shadow: 0px 2px 18px 7px rgba(189, 189, 189, 0.21);
+      box-shadow: 0 2px 18px 7px rgba(189, 189, 189, 0.21);
       transition: all 0.25s linear;
-      cursor: pointer;
       animation: fadeIn 0.5s 0.1s both;
 
       .person__image {
@@ -91,17 +93,34 @@ html {
 
       .person__rating {
         margin-left: auto;
-        font-size: 26px;
-        fobnt-weight: 700;
-        color: #4cd5af;
+        display: flex;
+        flex-direction: column;
+      }
 
-        span {
-          font-size: 15px;
+      .person__rating-value {
+        font-size: 26px;
+        font-weight: 700;
+        color: #4cd5af;
+      }
+
+      .person__rating-stats {
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+
+        .delta-value {
+          &__up {
+            color: #45d984;
+          }
+
+          &__down {
+            color: #ff6b6d;
+          }
         }
       }
 
       &:hover {
-        transform: scale(1.05);
+        transform: scale(1.02);
       }
     }
 
@@ -122,16 +141,6 @@ html {
       cursor: pointer;
     }
   }
-
-  .loading-indicator {
-    position: absolute;
-    margin-left: auto;
-    margin-right: auto;
-    top: 300px;
-    left: 0;
-    right: 0;
-
-  }
 }
 
 @media screen and (max-width: 430px) {
@@ -150,8 +159,12 @@ html {
         font-size: 16px;
       }
 
-      .person__rating {
-        font-size: 18px;
+      .person__rating-value {
+        font-size: 20px;
+      }
+
+      .person__rating-stats {
+        font-size: 9px;
       }
     }
   }
