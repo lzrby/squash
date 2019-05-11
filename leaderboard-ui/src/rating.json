@@ -3,25 +3,19 @@
     "name": "klicunou",
     "rating": 1611,
     "sets": 27,
-    "prev_rating": 1456
+    "prev_rating": 1611
   },
   {
     "name": "lucky_looser",
-    "rating": 1487,
-    "sets": 33,
+    "rating": 1514,
+    "sets": 41,
     "prev_rating": 1487
   },
   {
     "name": "Drapegnik",
     "rating": 1396,
     "sets": 18,
-    "prev_rating": 1400
-  },
-  {
-    "name": "iraborsch",
-    "rating": 1368,
-    "sets": 6,
-    "prev_rating": 1368
+    "prev_rating": 1396
   },
   {
     "name": "uladbohdan",
@@ -30,9 +24,15 @@
     "prev_rating": 1362
   },
   {
+    "name": "iraborsch",
+    "rating": 1341,
+    "sets": 14,
+    "prev_rating": 1368
+  },
+  {
     "name": "BG_grab",
     "rating": 1177,
     "sets": 36,
-    "prev_rating": 1327
+    "prev_rating": 1177
   }
 ]

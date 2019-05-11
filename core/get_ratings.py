@@ -121,7 +121,7 @@ def save_ratings_to_json(ratings, ratings_log, set_counts):
 def save_ratings_history_to_json(ratings_log):
     json_list = []
     for (date, ratings) in ratings_log:
-        ratings_dict = {name: int(np.round(ratings.loc[name]['Rating'])) for name in ratings.index}
+        ratings_dict = {name: int(np.round(ratings.loc[name]['Rating'])) for name in sorted(ratings.index)}
         json_list.append({'date': date, 'ratings': ratings_dict})
     json_filename = os.path.join(repo_root_dir, 'leaderboard-ui/src/ratings_history.json')
     with open(json_filename, 'w') as json_file:

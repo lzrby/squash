@@ -2,10 +2,10 @@
   {
     "date": "2019-03-22",
     "ratings": {
-      "klicunou": 1400,
+      "BG_grab": 1400,
       "Drapegnik": 1400,
       "iraborsch": 1400,
-      "BG_grab": 1400,
+      "klicunou": 1400,
       "lucky_looser": 1400,
       "uladbohdan": 1400
     }
@@ -13,21 +13,21 @@
   {
     "date": "2019-03-22",
     "ratings": {
-      "lucky_looser": 1420,
-      "klicunou": 1400,
+      "BG_grab": 1400,
       "Drapegnik": 1400,
       "iraborsch": 1400,
-      "BG_grab": 1400,
+      "klicunou": 1400,
+      "lucky_looser": 1420,
       "uladbohdan": 1380
     }
   },
   {
     "date": "2019-03-22",
     "ratings": {
+      "BG_grab": 1400,
+      "Drapegnik": 1400,
       "iraborsch": 1421,
       "klicunou": 1400,
-      "Drapegnik": 1400,
-      "BG_grab": 1400,
       "lucky_looser": 1399,
       "uladbohdan": 1380
     }
@@ -35,210 +35,221 @@
   {
     "date": "2019-03-22",
     "ratings": {
-      "uladbohdan": 1402,
-      "klicunou": 1400,
-      "Drapegnik": 1400,
       "BG_grab": 1400,
+      "Drapegnik": 1400,
+      "iraborsch": 1399,
+      "klicunou": 1400,
       "lucky_looser": 1399,
-      "iraborsch": 1399
+      "uladbohdan": 1402
     }
   },
   {
     "date": "2019-03-22",
     "ratings": {
-      "lucky_looser": 1419,
-      "klicunou": 1400,
-      "Drapegnik": 1400,
       "BG_grab": 1400,
+      "Drapegnik": 1400,
       "iraborsch": 1399,
+      "klicunou": 1400,
+      "lucky_looser": 1419,
       "uladbohdan": 1382
     }
   },
   {
     "date": "2019-03-22",
     "ratings": {
-      "lucky_looser": 1438,
-      "klicunou": 1400,
-      "Drapegnik": 1400,
       "BG_grab": 1400,
-      "uladbohdan": 1382,
-      "iraborsch": 1380
+      "Drapegnik": 1400,
+      "iraborsch": 1380,
+      "klicunou": 1400,
+      "lucky_looser": 1438,
+      "uladbohdan": 1382
     }
   },
   {
     "date": "2019-03-22",
     "ratings": {
-      "lucky_looser": 1438,
-      "uladbohdan": 1402,
-      "klicunou": 1400,
-      "Drapegnik": 1400,
       "BG_grab": 1400,
-      "iraborsch": 1360
+      "Drapegnik": 1400,
+      "iraborsch": 1360,
+      "klicunou": 1400,
+      "lucky_looser": 1438,
+      "uladbohdan": 1402
     }
   },
   {
     "date": "2019-03-22",
     "ratings": {
+      "BG_grab": 1400,
+      "Drapegnik": 1400,
+      "iraborsch": 1360,
+      "klicunou": 1400,
       "lucky_looser": 1456,
-      "klicunou": 1400,
-      "Drapegnik": 1400,
-      "BG_grab": 1400,
-      "uladbohdan": 1384,
-      "iraborsch": 1360
+      "uladbohdan": 1384
     }
   },
   {
     "date": "2019-03-22",
     "ratings": {
-      "lucky_looser": 1470,
-      "klicunou": 1400,
-      "Drapegnik": 1400,
       "BG_grab": 1400,
-      "uladbohdan": 1384,
-      "iraborsch": 1345
+      "Drapegnik": 1400,
+      "iraborsch": 1345,
+      "klicunou": 1400,
+      "lucky_looser": 1470,
+      "uladbohdan": 1384
     }
   },
   {
     "date": "2019-03-22",
     "ratings": {
-      "lucky_looser": 1470,
-      "klicunou": 1400,
-      "Drapegnik": 1400,
       "BG_grab": 1400,
+      "Drapegnik": 1400,
       "iraborsch": 1368,
+      "klicunou": 1400,
+      "lucky_looser": 1470,
       "uladbohdan": 1362
     }
   },
   {
     "date": "2019-03-27",
     "ratings": {
+      "BG_grab": 1400,
+      "Drapegnik": 1400,
+      "iraborsch": 1368,
       "klicunou": 1456,
       "lucky_looser": 1414,
-      "Drapegnik": 1400,
-      "BG_grab": 1400,
-      "iraborsch": 1368,
       "uladbohdan": 1362
     }
   },
   {
     "date": "2019-04-25",
     "ratings": {
-      "lucky_looser": 1547,
-      "klicunou": 1456,
+      "BG_grab": 1267,
       "Drapegnik": 1400,
       "iraborsch": 1368,
-      "uladbohdan": 1362,
-      "BG_grab": 1267
+      "klicunou": 1456,
+      "lucky_looser": 1547,
+      "uladbohdan": 1362
     }
   },
   {
     "date": "2019-05-03",
     "ratings": {
-      "lucky_looser": 1487,
-      "klicunou": 1456,
+      "BG_grab": 1327,
       "Drapegnik": 1400,
       "iraborsch": 1368,
-      "uladbohdan": 1362,
-      "BG_grab": 1327
+      "klicunou": 1456,
+      "lucky_looser": 1487,
+      "uladbohdan": 1362
     }
   },
   {
     "date": "2019-05-08",
     "ratings": {
-      "lucky_looser": 1487,
-      "klicunou": 1456,
+      "BG_grab": 1320,
       "Drapegnik": 1408,
       "iraborsch": 1368,
-      "uladbohdan": 1362,
-      "BG_grab": 1320
+      "klicunou": 1456,
+      "lucky_looser": 1487,
+      "uladbohdan": 1362
     }
   },
   {
     "date": "2019-05-08",
     "ratings": {
-      "lucky_looser": 1487,
+      "BG_grab": 1320,
+      "Drapegnik": 1396,
+      "iraborsch": 1368,
       "klicunou": 1468,
-      "Drapegnik": 1396,
-      "iraborsch": 1368,
-      "uladbohdan": 1362,
-      "BG_grab": 1320
+      "lucky_looser": 1487,
+      "uladbohdan": 1362
     }
   },
   {
     "date": "2019-05-08",
     "ratings": {
-      "klicunou": 1504,
-      "lucky_looser": 1487,
+      "BG_grab": 1284,
       "Drapegnik": 1396,
       "iraborsch": 1368,
-      "uladbohdan": 1362,
-      "BG_grab": 1284
+      "klicunou": 1504,
+      "lucky_looser": 1487,
+      "uladbohdan": 1362
     }
   },
   {
     "date": "2019-05-08",
     "ratings": {
-      "klicunou": 1504,
-      "lucky_looser": 1487,
+      "BG_grab": 1243,
       "Drapegnik": 1437,
       "iraborsch": 1368,
-      "uladbohdan": 1362,
-      "BG_grab": 1243
+      "klicunou": 1504,
+      "lucky_looser": 1487,
+      "uladbohdan": 1362
     }
   },
   {
     "date": "2019-05-08",
     "ratings": {
+      "BG_grab": 1243,
+      "Drapegnik": 1389,
+      "iraborsch": 1368,
       "klicunou": 1552,
       "lucky_looser": 1487,
-      "Drapegnik": 1389,
-      "iraborsch": 1368,
-      "uladbohdan": 1362,
-      "BG_grab": 1243
+      "uladbohdan": 1362
     }
   },
   {
     "date": "2019-05-08",
     "ratings": {
+      "BG_grab": 1225,
+      "Drapegnik": 1389,
+      "iraborsch": 1368,
       "klicunou": 1570,
       "lucky_looser": 1487,
-      "Drapegnik": 1389,
-      "iraborsch": 1368,
-      "uladbohdan": 1362,
-      "BG_grab": 1225
+      "uladbohdan": 1362
     }
   },
   {
     "date": "2019-05-08",
     "ratings": {
-      "klicunou": 1601,
-      "lucky_looser": 1487,
-      "iraborsch": 1368,
-      "uladbohdan": 1362,
+      "BG_grab": 1225,
       "Drapegnik": 1357,
-      "BG_grab": 1225
+      "iraborsch": 1368,
+      "klicunou": 1601,
+      "lucky_looser": 1487,
+      "uladbohdan": 1362
     }
   },
   {
     "date": "2019-05-08",
     "ratings": {
-      "klicunou": 1601,
-      "lucky_looser": 1487,
+      "BG_grab": 1187,
       "Drapegnik": 1396,
       "iraborsch": 1368,
-      "uladbohdan": 1362,
-      "BG_grab": 1187
+      "klicunou": 1601,
+      "lucky_looser": 1487,
+      "uladbohdan": 1362
     }
   },
   {
     "date": "2019-05-08",
     "ratings": {
+      "BG_grab": 1177,
+      "Drapegnik": 1396,
+      "iraborsch": 1368,
       "klicunou": 1611,
       "lucky_looser": 1487,
+      "uladbohdan": 1362
+    }
+  },
+  {
+    "date": "2019-05-11",
+    "ratings": {
+      "BG_grab": 1177,
       "Drapegnik": 1396,
-      "iraborsch": 1368,
-      "uladbohdan": 1362,
-      "BG_grab": 1177
+      "iraborsch": 1341,
+      "klicunou": 1611,
+      "lucky_looser": 1514,
+      "uladbohdan": 1362
     }
   }
 ]
