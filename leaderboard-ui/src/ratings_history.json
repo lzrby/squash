@@ -2,10 +2,10 @@
   {
     "date": "2019-03-22",
     "ratings": {
-      "klicunou": 1400,
+      "BG_grab": 1400,
       "Drapegnik": 1400,
       "iraborsch": 1400,
-      "BG_grab": 1400,
+      "klicunou": 1400,
       "lucky_looser": 1400,
       "uladbohdan": 1400
     }
@@ -14,10 +14,10 @@
     "date": "2019-03-22",
     "ratings": {
       "lucky_looser": 1420,
-      "klicunou": 1400,
+      "BG_grab": 1400,
       "Drapegnik": 1400,
       "iraborsch": 1400,
-      "BG_grab": 1400,
+      "klicunou": 1400,
       "uladbohdan": 1380
     }
   },
@@ -25,9 +25,9 @@
     "date": "2019-03-22",
     "ratings": {
       "iraborsch": 1421,
-      "klicunou": 1400,
-      "Drapegnik": 1400,
       "BG_grab": 1400,
+      "Drapegnik": 1400,
+      "klicunou": 1400,
       "lucky_looser": 1399,
       "uladbohdan": 1380
     }
@@ -36,9 +36,9 @@
     "date": "2019-03-22",
     "ratings": {
       "uladbohdan": 1402,
-      "klicunou": 1400,
-      "Drapegnik": 1400,
       "BG_grab": 1400,
+      "Drapegnik": 1400,
+      "klicunou": 1400,
       "lucky_looser": 1399,
       "iraborsch": 1399
     }
@@ -47,9 +47,9 @@
     "date": "2019-03-22",
     "ratings": {
       "lucky_looser": 1419,
-      "klicunou": 1400,
-      "Drapegnik": 1400,
       "BG_grab": 1400,
+      "Drapegnik": 1400,
+      "klicunou": 1400,
       "iraborsch": 1399,
       "uladbohdan": 1382
     }
@@ -58,9 +58,9 @@
     "date": "2019-03-22",
     "ratings": {
       "lucky_looser": 1438,
-      "klicunou": 1400,
-      "Drapegnik": 1400,
       "BG_grab": 1400,
+      "Drapegnik": 1400,
+      "klicunou": 1400,
       "uladbohdan": 1382,
       "iraborsch": 1380
     }
@@ -70,9 +70,9 @@
     "ratings": {
       "lucky_looser": 1438,
       "uladbohdan": 1402,
-      "klicunou": 1400,
-      "Drapegnik": 1400,
       "BG_grab": 1400,
+      "Drapegnik": 1400,
+      "klicunou": 1400,
       "iraborsch": 1360
     }
   },
@@ -80,9 +80,9 @@
     "date": "2019-03-22",
     "ratings": {
       "lucky_looser": 1456,
-      "klicunou": 1400,
-      "Drapegnik": 1400,
       "BG_grab": 1400,
+      "Drapegnik": 1400,
+      "klicunou": 1400,
       "uladbohdan": 1384,
       "iraborsch": 1360
     }
@@ -91,9 +91,9 @@
     "date": "2019-03-22",
     "ratings": {
       "lucky_looser": 1470,
-      "klicunou": 1400,
-      "Drapegnik": 1400,
       "BG_grab": 1400,
+      "Drapegnik": 1400,
+      "klicunou": 1400,
       "uladbohdan": 1384,
       "iraborsch": 1345
     }
@@ -102,9 +102,9 @@
     "date": "2019-03-22",
     "ratings": {
       "lucky_looser": 1470,
-      "klicunou": 1400,
-      "Drapegnik": 1400,
       "BG_grab": 1400,
+      "Drapegnik": 1400,
+      "klicunou": 1400,
       "iraborsch": 1368,
       "uladbohdan": 1362
     }
@@ -114,8 +114,8 @@
     "ratings": {
       "klicunou": 1456,
       "lucky_looser": 1414,
-      "Drapegnik": 1400,
       "BG_grab": 1400,
+      "Drapegnik": 1400,
       "iraborsch": 1368,
       "uladbohdan": 1362
     }
@@ -238,6 +238,17 @@
       "Drapegnik": 1396,
       "iraborsch": 1368,
       "uladbohdan": 1362,
+      "BG_grab": 1177
+    }
+  },
+  {
+    "date": "2019-05-11",
+    "ratings": {
+      "klicunou": 1611,
+      "lucky_looser": 1514,
+      "Drapegnik": 1396,
+      "uladbohdan": 1362,
+      "iraborsch": 1341,
       "BG_grab": 1177
     }
   }
