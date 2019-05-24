@@ -19,7 +19,9 @@ FLAGS = flags.FLAGS
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 REPO_ROOT_DIR = os.path.join(SCRIPT_DIR, '..')
 
-flags.DEFINE_string('d', today(), 'Day of leaderboard in format yyyy-mm-dd.')
+flags.DEFINE_string('d', today(), ('Day of leaderboard to print in format yyyy-mm-dd. '
+                                   'If day is not specified or its value is equal to today(), '
+                                   'script will update json data.'))
 
 
 def win_set_probability(game_ratings):

@@ -14,11 +14,11 @@ FLAGS = flags.FLAGS
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 REPO_ROOT_DIR = os.path.join(SCRIPT_DIR, '..')
 
-flags.DEFINE_string('d', today(), 'Day of the matchup in format yyyy-mm-dd. If not set, current day will be used')
-flags.DEFINE_string('w', None, 'Name of the winner (player with lower rating value if drawn matchup is adding)')
-flags.DEFINE_string('l', None, 'Name of the looser (player with greater rating value if drawn matchup is adding)')
-flags.DEFINE_string('s', None, "Result of match in W:L format (W - winner's won sets, L - looser's won sets)")
-flags.DEFINE_string('b', 'yellow', 'Type of ball used for matchup')
+flags.DEFINE_string('d', today(), 'Day of the matchup in format yyyy-mm-dd. If not set, today will be used.')
+flags.DEFINE_string('w', None, 'Name of the winner (player with lower rating value if drawn matchup is adding).')
+flags.DEFINE_string('l', None, 'Name of the looser (player with greater rating value if drawn matchup is adding).')
+flags.DEFINE_string('s', None, "Result of match in W:L format (W - winner's won sets, L - looser's won sets).")
+flags.DEFINE_string('b', 'yellow', 'Type of ball used for matchup. Available values: red, r, blue, b, yellow, y.')
 flags.mark_flags_as_required(['w', 'l', 's'])
 
 
