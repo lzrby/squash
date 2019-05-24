@@ -11,14 +11,15 @@
 
 ### logger
 
-- Run from terminal at repo root: `./logger.py --winner="Winner Winnerovich" --looser="Looser Looserovich" --score=<winner's sets>:<looser's sets>`.
-- `--day` flag is optional (current day is used by default). Day format is yyyy-mm-dd.
-- `--ball="<ball color>"` flag is used when play ball was red or blue. Yellow color is default.
+- Run from terminal at repo root: `./logger.py -w="Winner" -l="Looser" -s=<winner's sets>:<looser's sets>`.
+- `-d` flag is optional (today is used by default). Day format is yyyy-mm-dd.
+- `-b="<ball color>"` flag is used when play ball was red or blue. Yellow color is default.
 - Also see `./logger.py --help`.
 
 ### get ratings
 
-- Run from terminal at repo root: `./get_ratings.py --day=<yyyy-mm-dd>`. This scripts prints current ratings for day from input at 23:59:59.
+- Run from terminal at repo root: `./get_ratings.py`. This will update all json data for deployment.
+- `-d` flag is optional, script will show ratings only if not current day specified. Day format is yyyy-mm-dd. 
 - Also you can see `./get_ratings.py --help`.
 
 ### ui
