@@ -1,25 +1,25 @@
 #!/usr/bin/env python3
 
 from collections import Counter
-from datetime import datetime
 import os
 import sys
 
-import pandas as pd
 from absl import flags, app
+import pandas as pd
 
-from common import date_is_correct
+from common import date_is_correct, today
+import constants
 
 FLAGS = flags.FLAGS
-script_dir = os.path.dirname(os.path.abspath(__file__))
-repo_root_dir = os.path.join(script_dir, '..')
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+REPO_ROOT_DIR = os.path.join(SCRIPT_DIR, '..')
 
-flags.DEFINE_string('day', None, 'Day of the matchup in format yyyy-mm-dd. If not set, current day will be used')
-flags.DEFINE_string('winner', None, 'Name of the winner (player with lower rating value if drawn matchup is adding)')
-flags.DEFINE_string('looser', None, 'Name of the looser (player with greater rating value if drawn matchup is adding)')
-flags.DEFINE_string('score', None, "Result of match in W:L format (W - winner's won sets, L - looser's won sets)")
-flags.DEFINE_string('ball', 'yellow', 'Type of ball used for matchup')
-flags.mark_flags_as_required(['winner', 'looser', 'score'])
+flags.DEFINE_string('d', today(), 'Day of the matchup in format yyyy-mm-dd. If not set, current day will be used')
+flags.DEFINE_string('w', None, 'Name of the winner (player with lower rating value if drawn matchup is adding)')
+flags.DEFINE_string('l', None, 'Name of the looser (player with greater rating value if drawn matchup is adding)')
+flags.DEFINE_string('s', None, "Result of match in W:L format (W - winner's won sets, L - looser's won sets)")
+flags.DEFINE_string('b', 'yellow', 'Type of ball used for matchup')
+flags.mark_flags_as_required(['w', 'l', 's'])
 
 
 def check_player(player, games):
@@ -27,22 +27,17 @@ def check_player(player, games):
     if player not in known_players:
         print('player {} has no mathups at database, Do you want to add him? ([y]/n)'.format(player))
         confirm = sys.stdin.readline().strip()
-        if confirm == 'n':
-            print('OK')
-            return False
-        elif confirm != 'y' and confirm != '':
-            print('Response is incorrect')
+        if confirm == 'n' or confirm not in ['y', '']:
+            print('Player adding aborted')
             return False
         print('Added new player')
-        return True
-    else:
-        return True
+    return True
 
 
 def ball_is_correct(ball):
     if not isinstance(ball, str):
         return False
-    return ball.lower() in ['yellow', 'blue', 'red']
+    return ball.lower() in ['yellow', 'blue', 'red', 'y', 'b', 'r']
 
 
 def score_is_correct(score):
@@ -58,59 +53,28 @@ def score_is_correct(score):
 
 
 def main(_):
-    games_csv_filepath = os.path.join(repo_root_dir, 'data/games.csv')
+    games_csv_filepath = os.path.join(REPO_ROOT_DIR, 'data/games.csv')
     games = pd.read_csv(games_csv_filepath)
 
-    game_to_add = {}
-
-    if FLAGS.day is None:
-        cur_date = datetime.now()
-        cur_year = str(cur_date.year)
-        cur_month = '0' * (cur_date.month < 10) + str(cur_date.month)
-        cur_day = '0' * (cur_date.day < 10) + str(cur_date.day)
-        cur_day_of_year = '{}-{}-{}'.format(cur_year, cur_month, cur_day)
-        game_to_add['Date'] = cur_day_of_year
-    else:
-        if date_is_correct(FLAGS.day):
-            game_to_add['Date'] = FLAGS.day
-        else:
-            print('Entered date is incorrect or has wrong format')
-            print('Matchup adding failed')
-            return
-
-    played_days = games['Date'].tolist()
-    played_days_counts = Counter()
-    played_days_counts.update(played_days)
-    if game_to_add['Date'] not in played_days_counts.keys():
-        game_to_add['Game of the day'] = 1
-    else:
-        game_to_add['Game of the day'] = played_days_counts[game_to_add['Date']] + 1
-
-    if check_player(FLAGS.winner, games):
-        game_to_add['Winner'] = FLAGS.winner
-    else:
-        print('Matchup adding failed')
+    if not date_is_correct(FLAGS.d):
+        print('Matchup adding failed: entered date {} is incorrect or has wrong format'.format(FLAGS.d))
+        return
+    if not check_player(FLAGS.w, games) or not check_player(FLAGS.l, games):
+        print('Matchup adding failed because of player adding fail')
+        return
+    if not score_is_correct(FLAGS.s):
+        print('Matchup adding failed: score {} is incorrect'.format(FLAGS.s))
+        return
+    if not ball_is_correct(FLAGS.b):
+        print('Matchup adding failed: ball {} is incorrect'.format(FLAGS.b))
         return
 
-    if check_player(FLAGS.looser, games):
-        game_to_add['Looser'] = FLAGS.looser
-    else:
-        print('Matchup adding failed')
-        return
+    new_game = {'Date': FLAGS.d, 'Winner': FLAGS.w, 'Looser': FLAGS.l, 'Score': FLAGS.s}
+    day_games = Counter(games['Date'].tolist())
+    new_game['Game of the day'] = 1 if new_game['Date'] not in day_games.keys() else day_games[new_game['Date']] + 1
+    new_game['Ball'] = constants.BALLS[FLAGS.b] if FLAGS.b in constants.BALLS else FLAGS.b.lower()
 
-    if score_is_correct(FLAGS.score):
-        game_to_add['Score'] = FLAGS.score
-    else:
-        print('Matchup adding failed: score {} is incorrect'.format(FLAGS.score))
-        return
-
-    if ball_is_correct(FLAGS.ball):
-        game_to_add['Ball'] = FLAGS.ball.lower()
-    else:
-        print('Matchup adding failed: ball {} is incorrect'.format(FLAGS.ball))
-        return
-
-    games = games.append(game_to_add, ignore_index=True)
+    games = games.append(new_game, ignore_index=True)
     games.to_csv(games_csv_filepath, index=False)
     print('Matchup adding succeeded')
 
