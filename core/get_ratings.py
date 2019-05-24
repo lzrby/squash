@@ -12,7 +12,7 @@ from common import date_is_correct, today
 import constants
 
 Players = namedtuple('Players', ['winner', 'looser'])
-Score = namedtuple('Score', ['winner_sets', 'looser_sets'])
+ScoreInSets = namedtuple('Score', ['winner', 'looser'])
 
 FLAGS = flags.FLAGS
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -37,38 +37,34 @@ def expected_sets_won(my_rating, opponent_rating, n_sets):
 
 
 def get_norm_coeff(old_rating, sets_played):
-    if sets_played < 100:
-        return 40
-    else:
-        return 10 if old_rating >= 2400 else 20
+    return 40 if sets_played < 100 else 10 if old_rating >= 2400 else 20
 
 
-def count_new_rating(old_rating, expected_sets_won, real_sets_won, ball_coeff, sets_played):
+def update_rating(old_rating, sets_won_expected, sets_won, ball, sets_played):
     norm_coeff = get_norm_coeff(old_rating, sets_played)
-    return old_rating + norm_coeff * ball_coeff * (real_sets_won - expected_sets_won)
+    return old_rating + norm_coeff * constants.BALL_COEFFS[ball] * (sets_won - sets_won_expected)
 
 
-def apply_elo_law(players, score, ball_coeff, winner_rating, looser_rating, set_counts):
-    won_expected = expected_sets_won(winner_rating, looser_rating, score.winner_sets + score.looser_sets)
-    lost_expected = score.winner_sets + score.looser_sets - won_expected
-    winner_new_rating = count_new_rating(winner_rating, won_expected, score.winner_sets, ball_coeff, set_counts[players.winner])
-    looser_new_rating = count_new_rating(looser_rating, lost_expected, score.looser_sets, ball_coeff, set_counts[players.looser])
+def apply_elo_law(players, score, winner_rating, looser_rating, ball, set_counts):
+    won_expected = expected_sets_won(winner_rating, looser_rating, score.winner + score.looser)
+    lost_expected = score.winner + score.looser - won_expected
+    winner_new_rating = update_rating(winner_rating, won_expected, score.winner, ball, set_counts[players.winner])
+    looser_new_rating = update_rating(looser_rating, lost_expected, score.looser, ball, set_counts[players.looser])
     return winner_new_rating, looser_new_rating
 
 
 def update_ratings_with_game(ratings, game, set_counts):
     players = Players(game.Winner, game.Looser)
-    score = Score(*sorted(list(map(int, game.Score.split(':'))), reverse=True))
-    ball_coeff = constants.BALL_COEFFS[game.Ball]
+    score = ScoreInSets(*sorted(list(map(int, game.Score.split(':'))), reverse=True))
     winner_rating = ratings.loc[players.winner].Rating
     looser_rating = ratings.loc[players.looser].Rating
 
-    winner_new_rating, looser_new_rating = apply_elo_law(players, score, ball_coeff, winner_rating, looser_rating, set_counts)
+    winner_new_rating, looser_new_rating = apply_elo_law(players, score, winner_rating, looser_rating, game.Ball, set_counts)
     new_ratings = ratings.copy(deep=True)
     new_ratings.loc[players.winner].Rating = winner_new_rating
     new_ratings.loc[players.looser].Rating = looser_new_rating
-    set_counts[players.winner] += score.winner_sets + score.looser_sets
-    set_counts[players.looser] += score.winner_sets + score.looser_sets
+    set_counts[players.winner] += score.winner + score.looser
+    set_counts[players.looser] += score.winner + score.looser
     return new_ratings
 
 
@@ -77,12 +73,14 @@ def count_ratings(date):
     games = pd.read_csv(game_data_filepath)
     sorted_games = games.sort_values(['Date', 'Game of the day'])
     proper_games = sorted_games[sorted_games['Date'] <= date]
+
     all_players = list(set(proper_games['Winner'].tolist() + proper_games['Looser'].tolist()))
     data = {'Rating': [constants.DEFAULT_RATING for i in range(len(all_players))]}
     start_ratings = pd.DataFrame(data, index=all_players)
     n_games = proper_games.shape[0]
     set_counts = {name: 0 for name in all_players}
     ratings_log = [(proper_games.loc[0]['Date'], start_ratings)]
+
     for i in range(n_games):
         new_ratings = update_ratings_with_game(ratings_log[-1][1], proper_games.loc[i], set_counts)
         new_ratings = new_ratings.sort_values(['Rating'], ascending=False)
@@ -97,8 +95,8 @@ def save_ratings_to_json(ratings, ratings_log, set_counts):
                         'rating': int(np.round(ratings.loc[name]['Rating'])),
                         'sets': int(set_counts[name])}
         for i in range(len(ratings_log)):
-            cur_date, cur_ratings = ratings_log[i]
-            if cur_date == ratings_log[-1][0]:
+            cur_day, cur_ratings = ratings_log[i]
+            if cur_day == ratings_log[-1][0]:
                 if i != 0:
                     prev_day, prev_ratings = ratings_log[i-1]
                     dict_to_save['prev_rating'] = int(np.round(prev_ratings.loc[name]['Rating']))
