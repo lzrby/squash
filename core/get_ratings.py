@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from datetime import datetime
+from collections import namedtuple
 import json
 import os
 
@@ -8,14 +8,17 @@ from absl import flags, app
 import numpy as np
 import pandas as pd
 
-from common import date_is_correct
+from common import date_is_correct, today
 import constants
 
-FLAGS = flags.FLAGS
-script_dir = os.path.dirname(os.path.abspath(__file__))
-repo_root_dir = os.path.join(script_dir, '..')
+Players = namedtuple('Players', ['winner', 'looser'])
+Score = namedtuple('Score', ['winner_sets', 'looser_sets'])
 
-flags.DEFINE_string('day', None, 'Day of leaderboard in format yyyy-mm-dd.')
+FLAGS = flags.FLAGS
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+REPO_ROOT_DIR = os.path.join(SCRIPT_DIR, '..')
+
+flags.DEFINE_string('d', today(), 'Day of leaderboard in format yyyy-mm-dd.')
 
 
 def win_set_probability(my_rating, opponent_rating):
@@ -36,10 +39,8 @@ def expected_sets_won(my_rating, opponent_rating, n_sets):
 def get_norm_coeff(old_rating, sets_played):
     if sets_played < 100:
         return 40
-    elif old_rating >= 2400:
-        return 10
     else:
-        return 20
+        return 10 if old_rating >= 2400 else 20
 
 
 def count_new_rating(old_rating, expected_sets_won, real_sets_won, ball_coeff, sets_played):
@@ -47,39 +48,32 @@ def count_new_rating(old_rating, expected_sets_won, real_sets_won, ball_coeff, s
     return old_rating + norm_coeff * ball_coeff * (real_sets_won - expected_sets_won)
 
 
-def apply_elo_law(winner, looser, winner_sets, looser_sets, ball_coeff, winner_rating, looser_rating, set_counts):
-    total_sets = winner_sets + looser_sets
-    won_expected = expected_sets_won(winner_rating, looser_rating, total_sets)
-    lost_expected = total_sets - won_expected
-    winner_new_rating = count_new_rating(winner_rating, won_expected, winner_sets, ball_coeff, set_counts[winner])
-    looser_new_rating = count_new_rating(looser_rating, lost_expected, looser_sets, ball_coeff, set_counts[looser])
+def apply_elo_law(players, score, ball_coeff, winner_rating, looser_rating, set_counts):
+    won_expected = expected_sets_won(winner_rating, looser_rating, score.winner_sets + score.looser_sets)
+    lost_expected = score.winner_sets + score.looser_sets - won_expected
+    winner_new_rating = count_new_rating(winner_rating, won_expected, score.winner_sets, ball_coeff, set_counts[players.winner])
+    looser_new_rating = count_new_rating(looser_rating, lost_expected, score.looser_sets, ball_coeff, set_counts[players.looser])
     return winner_new_rating, looser_new_rating
 
 
 def update_ratings_with_game(ratings, game, set_counts):
-    winner = game.Winner
-    looser = game.Looser
-    sets = list(map(int, game.Score.split(':')))
-
-    winner_sets = np.max(sets)
-    looser_sets = np.min(sets)
+    players = Players(game.Winner, game.Looser)
+    score = Score(*sorted(list(map(int, game.Score.split(':'))), reverse=True))
     ball_coeff = constants.BALL_COEFFS[game.Ball]
-    winner_rating = ratings.loc[winner].Rating
-    looser_rating = ratings.loc[looser].Rating
+    winner_rating = ratings.loc[players.winner].Rating
+    looser_rating = ratings.loc[players.looser].Rating
 
-    winner_new_rating, looser_new_rating = apply_elo_law(winner, looser, winner_sets, looser_sets,
-                                                         ball_coeff, winner_rating, looser_rating, set_counts)
+    winner_new_rating, looser_new_rating = apply_elo_law(players, score, ball_coeff, winner_rating, looser_rating, set_counts)
     new_ratings = ratings.copy(deep=True)
-    new_ratings.loc[winner].Rating = winner_new_rating
-    new_ratings.loc[looser].Rating = looser_new_rating
-    total_sets = winner_sets + looser_sets
-    set_counts[winner] += total_sets
-    set_counts[looser] += total_sets
+    new_ratings.loc[players.winner].Rating = winner_new_rating
+    new_ratings.loc[players.looser].Rating = looser_new_rating
+    set_counts[players.winner] += score.winner_sets + score.looser_sets
+    set_counts[players.looser] += score.winner_sets + score.looser_sets
     return new_ratings
 
 
 def count_ratings(date):
-    game_data_filepath = os.path.join(repo_root_dir, 'data/games.csv')
+    game_data_filepath = os.path.join(REPO_ROOT_DIR, 'data/games.csv')
     games = pd.read_csv(game_data_filepath)
     sorted_games = games.sort_values(['Date', 'Game of the day'])
     proper_games = sorted_games[sorted_games['Date'] <= date]
@@ -97,7 +91,7 @@ def count_ratings(date):
 
 
 def save_ratings_to_json(ratings, ratings_log, set_counts):
-    json_list = []
+    json_data = []
     for name in ratings.index:
         dict_to_save = {'name': name,
                         'rating': int(np.round(ratings.loc[name]['Rating'])),
@@ -111,38 +105,33 @@ def save_ratings_to_json(ratings, ratings_log, set_counts):
                 else:
                     dict_to_save['prev_rating'] = int(np.round(cur_ratings.loc[name]['Rating']))
                 break
-        json_list.append(dict_to_save)
-    json_filename = os.path.join(repo_root_dir, 'leaderboard-ui/src/rating.json')
+        json_data.append(dict_to_save)
+    json_filename = os.path.join(REPO_ROOT_DIR, 'leaderboard-ui/src/rating.json')
     with open(json_filename, 'w') as json_file:
-        json.dump(json_list, json_file, indent=2)
+        json.dump(json_data, json_file, indent=2)
         json_file.write('\n')
 
 
 def save_ratings_history_to_json(ratings_log):
-    json_list = []
+    json_data = []
     for (date, ratings) in ratings_log:
         ratings_dict = {name: int(np.round(ratings.loc[name]['Rating'])) for name in sorted(ratings.index)}
-        json_list.append({'date': date, 'ratings': ratings_dict})
-    json_filename = os.path.join(repo_root_dir, 'leaderboard-ui/src/ratings_history.json')
+        json_data.append({'date': date, 'ratings': ratings_dict})
+    json_filename = os.path.join(REPO_ROOT_DIR, 'leaderboard-ui/src/ratings_history.json')
     with open(json_filename, 'w') as json_file:
-        json.dump(json_list, json_file, indent=2)
+        json.dump(json_data, json_file, indent=2)
         json_file.write('\n')
 
 
 def main(_):
-    if FLAGS.day is None:
-        cur_date = datetime.now()
-        cur_year = str(cur_date.year)
-        cur_month = '0' * (cur_date.month < 10) + str(cur_date.month)
-        cur_day = '0' * (cur_date.day < 10) + str(cur_date.day)
-        cur_day_of_year = '{}-{}-{}'.format(cur_year, cur_month, cur_day)
-        ratings, ratings_log, set_counts = count_ratings(cur_day_of_year)
+    if FLAGS.d == today():
+        ratings, ratings_log, set_counts = count_ratings(FLAGS.d)
         save_ratings_to_json(ratings, ratings_log, set_counts)
         save_ratings_history_to_json(ratings_log)
-    elif not date_is_correct(FLAGS.day):
+    elif not date_is_correct(FLAGS.d):
         print('Date is incorrect or it has wrong format')
     else:
-        ratings, ratings_log, set_counts = count_ratings(FLAGS.day)
+        ratings, ratings_log, set_counts = count_ratings(FLAGS.d)
         print(ratings)
 
 
