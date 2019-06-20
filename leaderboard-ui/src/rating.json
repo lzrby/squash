@@ -3,13 +3,13 @@
     "name": "klicunou",
     "rating": 1648,
     "sets": 35,
-    "prev_rating": 1611
+    "prev_rating": 1648
   },
   {
     "name": "lucky_looser",
-    "rating": 1478,
-    "sets": 49,
-    "prev_rating": 1514
+    "rating": 1418,
+    "sets": 59,
+    "prev_rating": 1478
   },
   {
     "name": "Drapegnik",
@@ -31,8 +31,8 @@
   },
   {
     "name": "BG_grab",
-    "rating": 1177,
-    "sets": 36,
+    "rating": 1237,
+    "sets": 46,
     "prev_rating": 1177
   }
 ]
