@@ -10,7 +10,7 @@ def date_is_correct(date):
     for date_item in date_items:
         if not date_item.isdigit():
             return False
-    if len(date_items[1]) != 2 or len(date_items[2]) != 2:
+    if list(map(len, date_items[1:3])) != [2, 2]:
         return False
     year = int(date_items[0])
     if year < 1000 or year > 2100:
@@ -37,6 +37,6 @@ def date_is_correct(date):
 def today():
     cur_date = datetime.now()
     cur_year = str(cur_date.year)
-    cur_month = '0' * (cur_date.month < 10) + str(cur_date.month)
+    cur_month = f'{cur_date.month}'.rjust(2, '0')
     cur_day = '0' * (cur_date.day < 10) + str(cur_date.day)
-    return '{}-{}-{}'.format(cur_year, cur_month, cur_day)
+    return f'{cur_year}-{cur_month}-{cur_day}'
