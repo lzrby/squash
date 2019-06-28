@@ -40,7 +40,7 @@ def expected_sets_won(game_ratings, n_sets):
 
 
 def get_norm_coeff(old_rating, sets_played):
-    return 40 if sets_played < 100 else 10 if old_rating >= 2400 else 20
+    return 40 if sets_played < constants.SETS_COEFF_BOUND else 10 if old_rating >= constants.RATING_COEFF_BOUND else 20
 
 
 def update_rating(old_rating, sets_won, sets_won_expected, ball, sets_played):
@@ -92,14 +92,10 @@ def count_ratings(date):
 
 
 def get_previous_rating(name, ratings_log):
-    for i in range(len(ratings_log)):
-        cur_day, cur_ratings = ratings_log[i]
+    for (i, (cur_day, cur_ratings)) in enumerate(ratings_log):
         if cur_day == ratings_log[-1][0]:
-            if i != 0:
-                prev_day, prev_ratings = ratings_log[i-1]
-                return int(np.round(prev_ratings.loc[name]['Rating']))
-            else:
-                return int(np.round(cur_ratings.loc[name]['Rating']))
+            prev_ratings = ratings_log[i-1][1] if i != 0 else cur_ratings
+            return int(np.round(prev_ratings.loc[name]['Rating']))
 
 
 def save_ratings_to_json(ratings, ratings_log, set_counts):
