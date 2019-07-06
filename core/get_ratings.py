@@ -103,24 +103,25 @@ def get_previous_rating(name, ratings_log):
 
 
 def save_ratings_to_json(ratings, ratings_log, set_counts):
-    json_data = []
-    for name in ratings.index:
-        dict_to_save = {'name': name,
-                        'rating': int(np.round(ratings.loc[name]['Rating'])),
-                        'sets': int(set_counts[name]),
-                        'prev_rating': get_previous_rating(name, ratings_log)}
-        json_data.append(dict_to_save)
+    json_data = list(map(lambda name: {'name': name,
+                                       'rating': int(np.round(ratings.loc[name]['Rating'])),
+                                       'sets': int(set_counts[name]),
+                                       'prev_rating': get_previous_rating(name, ratings_log)
+                                       }, ratings.index))
     json_filename = os.path.join(REPO_ROOT_DIR, 'leaderboard-ui/src/rating.json')
     with open(json_filename, 'w') as json_file:
         json.dump(json_data, json_file, indent=2)
         json_file.write('\n')
 
 
+def get_ratings_dict(ratings_table):
+    return {name: int(np.round(ratings_table.loc[name]['Rating'])) for name in sorted(ratings_table.index)}
+
+
 def save_ratings_history_to_json(ratings_log):
-    json_data = []
-    for (date, ratings) in ratings_log:
-        ratings_dict = {name: int(np.round(ratings.loc[name]['Rating'])) for name in sorted(ratings.index)}
-        json_data.append({'date': date, 'ratings': ratings_dict})
+    json_data = list(map(lambda ratings_log_item: {'date': ratings_log_item[0],
+                                                   'ratings': get_ratings_dict(ratings_log_item[1])
+                                                   }, ratings_log))
     json_filename = os.path.join(REPO_ROOT_DIR, 'leaderboard-ui/src/ratings_history.json')
     with open(json_filename, 'w') as json_file:
         json.dump(json_data, json_file, indent=2)
