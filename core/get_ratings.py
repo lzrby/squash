@@ -92,10 +92,14 @@ def count_ratings(date):
 
 
 def get_previous_rating(name, ratings_log):
-    for (i, (cur_day, cur_ratings)) in enumerate(ratings_log):
-        if cur_day == ratings_log[-1][0]:
-            prev_ratings = ratings_log[i-1][1] if i != 0 else cur_ratings
-            return int(np.round(prev_ratings.loc[name]['Rating']))
+    days_list = [day for (day, ratings) in ratings_log]
+    days_unique_sorted = list(sorted(set(days_list), reverse=True))
+    if len(days_unique_sorted) < 2:
+        return constants.DEFAULT_RATING
+    prev_match_day = days_unique_sorted[1]
+    prev_ratings_log_index = len(days_list) - 1 - days_list[::-1].index(prev_match_day)
+    prev_ratings = ratings_log[prev_ratings_log_index][1]
+    return int(np.round(prev_ratings.loc[name]['Rating']))
 
 
 def save_ratings_to_json(ratings, ratings_log, set_counts):
