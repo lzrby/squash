@@ -6,16 +6,16 @@
     "prev_rating": 1648
   },
   {
-    "name": "lucky_looser",
-    "rating": 1432,
-    "sets": 68,
-    "prev_rating": 1418
-  },
-  {
     "name": "Drapegnik",
     "rating": 1396,
     "sets": 18,
     "prev_rating": 1396
+  },
+  {
+    "name": "lucky_looser",
+    "rating": 1373,
+    "sets": 79,
+    "prev_rating": 1432
   },
   {
     "name": "uladbohdan",
@@ -31,8 +31,8 @@
   },
   {
     "name": "BG_grab",
-    "rating": 1223,
-    "sets": 55,
-    "prev_rating": 1237
+    "rating": 1281,
+    "sets": 66,
+    "prev_rating": 1223
   }
 ]
