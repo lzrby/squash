@@ -19,7 +19,7 @@
 ### get ratings
 
 - Run from terminal at repo root: `./get_ratings.py`. This will update all json data for deployment.
-- `-d` flag is optional, script will show ratings only if not current day specified. Day format is yyyy-mm-dd. 
+- `-d` flag is optional, script will show ratings only if not current day specified. Day format is yyyy-mm-dd.
 - Also you can see `./get_ratings.py --help`.
 
 ### ui

@@ -6,16 +6,16 @@
     "prev_rating": 1648
   },
   {
-    "name": "Drapegnik",
-    "rating": 1396,
-    "sets": 18,
-    "prev_rating": 1396
+    "name": "lucky_looser",
+    "rating": 1552,
+    "sets": 89,
+    "prev_rating": 1373
   },
   {
-    "name": "lucky_looser",
-    "rating": 1373,
-    "sets": 79,
-    "prev_rating": 1432
+    "name": "Drapegnik",
+    "rating": 1426,
+    "sets": 29,
+    "prev_rating": 1396
   },
   {
     "name": "uladbohdan",
@@ -24,15 +24,21 @@
     "prev_rating": 1362
   },
   {
-    "name": "iraborsch",
-    "rating": 1341,
-    "sets": 14,
-    "prev_rating": 1341
+    "name": "VladDeykun",
+    "rating": 1358,
+    "sets": 10,
+    "prev_rating": 1400
   },
   {
     "name": "BG_grab",
     "rating": 1281,
     "sets": 66,
-    "prev_rating": 1223
+    "prev_rating": 1281
+  },
+  {
+    "name": "iraborsch",
+    "rating": 1174,
+    "sets": 25,
+    "prev_rating": 1341
   }
 ]
