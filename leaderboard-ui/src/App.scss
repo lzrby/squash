@@ -86,9 +86,18 @@ html {
         border-radius: 50%;
       }
 
-      .person__name {
-        font-size: 23px;
-        color: #979cb0;
+      .person__row {
+        display: flex;
+        flex-direction: column;
+
+        &__name {
+          font-size: 23px;
+          color: #979cb0;
+        }
+
+        &__sets {
+          font-size: 12px;
+        }
       }
 
       .person__rating {
@@ -103,9 +112,9 @@ html {
         color: #4cd5af;
       }
 
-      .person__rating-stats {
+      .person__rating-delta {
         display: flex;
-        justify-content: space-between;
+        margin-left: auto;
         font-size: 12px;
 
         .delta-value {
