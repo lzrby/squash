@@ -14,8 +14,8 @@ const DeltaArrow = ({ value }) => {
   const arrow = ARROWS[type];
   return (
     <span className={`delta-value__${type}`}>
-      {arrow}
       {Math.abs(value)}
+      {arrow}
     </span>
   );
 };

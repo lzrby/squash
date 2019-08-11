@@ -1,13 +1,16 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './App.scss';
 import data from './rating.json';
 
 import DeltaArrow from './components/DeltaArrow';
+import { colorByPercent } from './utils';
 
 const { PUBLIC_URL } = process.env;
 
-const Player = ({ name, rating, sets, prev_rating }) => {
+const Player = ({ name, rating, sets, sets_won, prev_rating }) => {
   const delta = rating - prev_rating;
+  const winRate = Math.floor((sets_won / sets) * 100);
 
   return (
     <div className="list__person">
@@ -16,16 +19,41 @@ const Player = ({ name, rating, sets, prev_rating }) => {
         src={`${PUBLIC_URL}/avatars/${name}.jpg`}
         alt={name}
       />
-      <p className="person__name">{name}</p>
+      <div className="person__row">
+        <div className="person__row__name">{name}</div>
+        <div className="person__row__sets">
+          <span title="sets played">
+            <span role="img" aria-labelledby="games">
+              🏏
+            </span>
+            : {sets}
+          </span>
+          ,{' '}
+          <span title="win rate">
+            <span role="img" aria-labelledby="win rate">
+              🥇
+            </span>
+            : <span style={{ color: colorByPercent(winRate) }}>{winRate}%</span>
+          </span>
+        </div>
+      </div>
+
       <div className="person__rating">
         <span className="person__rating-value">{rating}</span>
-        <div className="person__rating-stats">
-          <DeltaArrow value={delta} />{' '}
-          <span className="person__sets">({sets})</span>
+        <div className="person__rating-delta">
+          <DeltaArrow value={delta} />
         </div>
       </div>
     </div>
   );
+};
+
+Player.propTypes = {
+  name: PropTypes.string.isRequired,
+  rating: PropTypes.number.isRequired,
+  sets: PropTypes.number.isRequired,
+  sets_won: PropTypes.number.isRequired,
+  prev_rating: PropTypes.number.isRequired,
 };
 
 const Header = () => (

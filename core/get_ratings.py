@@ -11,9 +11,11 @@ import pandas as pd
 from common import date_is_correct, today
 import constants
 
+
+GameRatings = namedtuple('GameRatings', ['my', 'opponent'])
 Players = namedtuple('Players', ['winner', 'looser'])
 ScoreInSets = namedtuple('Score', ['winner', 'looser'])
-GameRatings = namedtuple('GameRatings', ['my', 'opponent'])
+Sets = namedtuple('Sets', ['total', 'won'])
 
 FLAGS = flags.FLAGS
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -51,9 +53,10 @@ def update_rating(old_rating, sets_won, sets_won_expected, ball, sets_played):
 def apply_elo_law(players, score, game_ratings, ball, set_counts):
     won_expected = expected_sets_won(game_ratings, score.winner + score.looser)
     lost_expected = score.winner + score.looser - won_expected
-    winner_new_rating = update_rating(game_ratings.my, score.winner, won_expected, ball, set_counts[players.winner])
+    winner_new_rating = update_rating(game_ratings.my, score.winner,
+                                      won_expected, ball, set_counts[players.winner].total)
     looser_new_rating = update_rating(game_ratings.opponent, score.looser,
-                                      lost_expected, ball, set_counts[players.looser])
+                                      lost_expected, ball, set_counts[players.looser].total)
     return GameRatings(winner_new_rating, looser_new_rating)
 
 
@@ -66,8 +69,10 @@ def update_ratings_with_game(ratings, game, set_counts):
     new_ratings = ratings.copy(deep=True)
     new_ratings.loc[players.winner].Rating = game_ratings_after.my
     new_ratings.loc[players.looser].Rating = game_ratings_after.opponent
-    set_counts[players.winner] += score.winner + score.looser
-    set_counts[players.looser] += score.winner + score.looser
+    set_counts[players.winner] = Sets(set_counts[players.winner].total + score.looser + score.winner,
+                                      set_counts[players.winner].won + score.winner)
+    set_counts[players.looser] = Sets(set_counts[players.looser].total + score.looser + score.winner,
+                                      set_counts[players.looser].won + score.looser)
     return new_ratings
 
 
@@ -81,7 +86,7 @@ def count_ratings(date):
     data = {'Rating': [constants.DEFAULT_RATING for i in range(len(all_players))]}
     start_ratings = pd.DataFrame(data, index=all_players)
     n_games = proper_games.shape[0]
-    set_counts = {name: 0 for name in all_players}
+    set_counts = {name: Sets(0, 0) for name in all_players}
     ratings_log = [(proper_games.loc[0]['Date'], start_ratings)]
 
     for i in range(n_games):
@@ -105,7 +110,8 @@ def get_previous_rating(name, ratings_log):
 def save_ratings_to_json(ratings, ratings_log, set_counts):
     json_data = list(map(lambda name: {'name': name,
                                        'rating': int(np.round(ratings.loc[name]['Rating'])),
-                                       'sets': int(set_counts[name]),
+                                       'sets': int(set_counts[name].total),
+                                       'sets_won': int(set_counts[name].won),
                                        'prev_rating': get_previous_rating(name, ratings_log)
                                        }, ratings.index))
     json_filename = os.path.join(REPO_ROOT_DIR, 'leaderboard-ui/src/rating.json')
