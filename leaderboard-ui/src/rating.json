@@ -1,38 +1,38 @@
 [
   {
     "name": "klicunou",
-    "rating": 1648,
-    "sets": 35,
-    "sets_won": 28,
+    "rating": 1612,
+    "sets": 44,
+    "sets_won": 34,
     "prev_rating": 1648
   },
   {
     "name": "lucky_looser",
-    "rating": 1552,
-    "sets": 89,
-    "sets_won": 62,
-    "prev_rating": 1373
+    "rating": 1607,
+    "sets": 98,
+    "sets_won": 69,
+    "prev_rating": 1552
   },
   {
     "name": "Drapegnik",
     "rating": 1426,
     "sets": 29,
     "sets_won": 16,
-    "prev_rating": 1396
-  },
-  {
-    "name": "uladbohdan",
-    "rating": 1362,
-    "sets": 6,
-    "sets_won": 2,
-    "prev_rating": 1362
+    "prev_rating": 1426
   },
   {
     "name": "VladDeykun",
-    "rating": 1358,
-    "sets": 10,
-    "sets_won": 4,
-    "prev_rating": 1400
+    "rating": 1393,
+    "sets": 19,
+    "sets_won": 8,
+    "prev_rating": 1358
+  },
+  {
+    "name": "uladbohdan",
+    "rating": 1306,
+    "sets": 15,
+    "sets_won": 3,
+    "prev_rating": 1362
   },
   {
     "name": "BG_grab",
@@ -46,6 +46,6 @@
     "rating": 1174,
     "sets": 25,
     "sets_won": 4,
-    "prev_rating": 1341
+    "prev_rating": 1174
   }
 ]
