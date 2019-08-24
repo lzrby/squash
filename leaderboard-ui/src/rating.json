@@ -1,17 +1,17 @@
 [
   {
     "name": "lucky_looser",
-    "rating": 1668,
-    "sets": 103,
-    "sets_won": 74,
-    "prev_rating": 1607
+    "rating": 1690,
+    "sets": 108,
+    "sets_won": 79,
+    "prev_rating": 1668
   },
   {
     "name": "klicunou",
     "rating": 1563,
     "sets": 49,
     "sets_won": 36,
-    "prev_rating": 1612
+    "prev_rating": 1563
   },
   {
     "name": "Drapegnik",
@@ -29,8 +29,8 @@
   },
   {
     "name": "uladbohdan",
-    "rating": 1306,
-    "sets": 15,
+    "rating": 1284,
+    "sets": 20,
     "sets_won": 3,
     "prev_rating": 1306
   },
@@ -46,6 +46,6 @@
     "rating": 1162,
     "sets": 29,
     "sets_won": 4,
-    "prev_rating": 1174
+    "prev_rating": 1162
   }
 ]
