@@ -4,7 +4,7 @@
     "rating": 1690,
     "sets": 108,
     "sets_won": 79,
-    "prev_rating": 1668
+    "prev_rating": 1690
   },
   {
     "name": "klicunou",
@@ -28,23 +28,23 @@
     "prev_rating": 1393
   },
   {
+    "name": "BG_grab",
+    "rating": 1321,
+    "sets": 69,
+    "sets_won": 17,
+    "prev_rating": 1281
+  },
+  {
     "name": "uladbohdan",
     "rating": 1284,
     "sets": 20,
     "sets_won": 3,
-    "prev_rating": 1306
-  },
-  {
-    "name": "BG_grab",
-    "rating": 1281,
-    "sets": 66,
-    "sets_won": 14,
-    "prev_rating": 1281
+    "prev_rating": 1284
   },
   {
     "name": "iraborsch",
-    "rating": 1162,
-    "sets": 29,
+    "rating": 1122,
+    "sets": 32,
     "sets_won": 4,
     "prev_rating": 1162
   }
