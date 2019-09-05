@@ -1,9 +1,9 @@
 [
   {
     "name": "lucky_looser",
-    "rating": 1690,
-    "sets": 108,
-    "sets_won": 79,
+    "rating": 1698,
+    "sets": 113,
+    "sets_won": 84,
     "prev_rating": 1690
   },
   {
@@ -32,7 +32,7 @@
     "rating": 1321,
     "sets": 69,
     "sets_won": 17,
-    "prev_rating": 1281
+    "prev_rating": 1321
   },
   {
     "name": "uladbohdan",
@@ -43,9 +43,9 @@
   },
   {
     "name": "iraborsch",
-    "rating": 1122,
-    "sets": 32,
+    "rating": 1115,
+    "sets": 37,
     "sets_won": 4,
-    "prev_rating": 1162
+    "prev_rating": 1122
   }
 ]
