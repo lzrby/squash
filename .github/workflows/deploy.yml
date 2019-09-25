@@ -4,13 +4,14 @@ on: [push]
 
 jobs:
   build:
+    name: Build & Deploy
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
-      - name: build & deploy
+      - name: Run gh-pages deploy
         run: |
           cd leaderboard-ui
           npm i
-          npm run deploy
+          npm run deploy -- -u "wirbot <wir.development@gmail.com>"
