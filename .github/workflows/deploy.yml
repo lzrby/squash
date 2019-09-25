@@ -3,8 +3,7 @@ name: CI
 on: [push]
 
 jobs:
-  build:
-    name: Build & Deploy
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -12,11 +11,19 @@ jobs:
       - uses: actions/setup-node@v1
       - name: GitHub Authorization
         run: |
-          git config remote.origin.url https://wirbot:$GH_TOKEN@github.com/lzrby/squash
+          git config remote.origin.url https://wirbot:$token@github.com/lzrby/squash
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          token: ${{ secrets.GH_TOKEN }}
       - name: Run gh-pages deploy
         run: |
           cd leaderboard-ui
           npm i
           npm run deploy -- -u "wirbot <wir.development@gmail.com>"
+      - name: Update Deployment Status
+        run: |
+          cd leaderboard-ui
+          npm run gds -- --token $token -a create -e github-pages -r $sha
+          npm run gds -- --token $token -a success -e github-pages -r $sha -l https://lzrby.github.io/squash
+        env:
+          sha: ${{ github.sha }}
+          token: ${{ secrets.GH_TOKEN }}
