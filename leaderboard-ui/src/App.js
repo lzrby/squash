@@ -60,8 +60,8 @@ const Header = () => (
   <div className="header">
     <img className="header__icon" src={`${PUBLIC_URL}/cup.png`} alt="logo" />
     <h1 className="header__title">
-      Squash
-      <span>Leaderboard</span>
+      SQUASH
+      <span>LEADERBOARD</span>
     </h1>
   </div>
 );
