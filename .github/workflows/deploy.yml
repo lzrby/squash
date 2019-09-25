@@ -10,6 +10,11 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
+      - name: GitHub Authorization
+        run: |
+          git config remote.origin.url https://wirbot:$GH_TOKEN@github.com/lzrby/squash
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
       - name: Run gh-pages deploy
         run: |
           cd leaderboard-ui
