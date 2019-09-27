@@ -1,21 +1,30 @@
-from telegram.ext import Updater, CommandHandler
+import telebot
 import logging
 
-from settings import token
+from settings import token, groups, admins
+from utils import format_tags
 
-def start(update, context):
-    context.bot.send_message(chat_id=update.message.chat_id, text='🏸🏸🏸')
+bot = telebot.TeleBot(token)
+logger = telebot.logger
+telebot.logger.setLevel(logging.INFO)
 
-def main():
-    updater = Updater(token, use_context=True)
-    dispatcher = updater.dispatcher
-    logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+def guard(usernames = None):
+    def inner(func):
+        def wrapper(message):
+            if not message.chat.id in groups:
+                bot.reply_to(message, 'Invalid chat. Use in LZR squash group')
+                return
+            if usernames and not message.from_user.username in usernames:
+                bot.reply_to(message, f'Only {format_tags(usernames)} can call this command')
+                return
+            return func(message)
+        return wrapper
+    return inner
 
-    start_handler = CommandHandler('start', start)
-    dispatcher.add_handler(start_handler)
+@bot.message_handler(commands=['start'])
+@guard(admins)
+def start(message):
+    bot.reply_to(message, 'Lets play 🏸🏸🏸!')
 
-    updater.start_polling()
-    print('[log]: started.')
 
-if __name__ == '__main__':
-    main()
+bot.polling()
