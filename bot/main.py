@@ -37,6 +37,11 @@ class Store:
             table += f'{i}. {game.str()}\n'
         return table
 
+    @classmethod
+    def cleanup(cls):
+        cls.date = None
+        cls.games = None
+
 def guard(usernames = None):
     def inner(func):
         def wrapper(message):
@@ -76,5 +81,18 @@ def info(message):
         bot.reply_to(message, 'Not started, use /start')
         return
     bot.send_message(message.chat.id, Store.getInfo(), parse_mode='markdown')
+
+@bot.message_handler(commands=['end'])
+@guard(admins)
+def end(message):
+    if not Store.date:
+        bot.reply_to(message, 'Not started, use /start')
+        return
+    bot.reply_to(message, 'TODO: call @klicunou code')
+
+    Store.cleanup()
+
+    bot.send_message(message.chat.id, 'Success! 🎉 Check out https://lzrby.github.io/squash')
+
 
 bot.polling()
