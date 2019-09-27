@@ -8,7 +8,6 @@ from absl import flags, app
 import pandas as pd
 
 from common import date_is_correct, today
-import constants
 
 FLAGS = flags.FLAGS
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -18,7 +17,6 @@ flags.DEFINE_string('d', today(), 'Day of the matchup in format yyyy-mm-dd. If n
 flags.DEFINE_string('w', None, 'Name of the winner (player with lower rating value if drawn matchup is adding).')
 flags.DEFINE_string('l', None, 'Name of the looser (player with greater rating value if drawn matchup is adding).')
 flags.DEFINE_string('s', None, "Result of match in W:L format (W - winner's won sets, L - looser's won sets).")
-flags.DEFINE_string('b', 'yellow', 'Type of ball used for matchup. Available values: red, r, blue, b, yellow, y.')
 flags.mark_flags_as_required(['w', 'l', 's'])
 
 
@@ -32,12 +30,6 @@ def check_player(player, games):
             return False
         print('Added new player')
     return True
-
-
-def ball_is_correct(ball):
-    if not isinstance(ball, str):
-        return False
-    return ball.lower() in ['yellow', 'blue', 'red', 'y', 'b', 'r']
 
 
 def score_is_correct(score):
@@ -65,14 +57,10 @@ def main(_):
     if not score_is_correct(FLAGS.s):
         print('Matchup adding failed: score {} is incorrect'.format(FLAGS.s))
         return
-    if not ball_is_correct(FLAGS.b):
-        print('Matchup adding failed: ball {} is incorrect'.format(FLAGS.b))
-        return
 
     new_game = {'Date': FLAGS.d, 'Winner': FLAGS.w, 'Looser': FLAGS.l, 'Score': FLAGS.s}
     day_games = Counter(games['Date'].tolist())
-    new_game['Game of the day'] = 1 if new_game['Date'] not in day_games.keys() else day_games[new_game['Date']] + 1
-    new_game['Ball'] = constants.BALLS[FLAGS.b] if FLAGS.b in constants.BALLS else FLAGS.b.lower()
+    new_game['Index'] = 1 if new_game['Date'] not in day_games.keys() else day_games[new_game['Date']] + 1
 
     games = games.append(new_game, ignore_index=True)
     games.to_csv(games_csv_filepath, index=False)
