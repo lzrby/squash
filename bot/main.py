@@ -1,15 +1,22 @@
 import telebot
 import logging
+import pandas as pd
 from datetime import datetime
 from dataclasses import dataclass
+import os
 from typing import List
 
+from get_ratings import update_json_data
 from settings import token, groups, admins, GAME_FORMAT
-from utils import format_tags, parse_game
+from utils import add_result, format_tags, parse_game
 
 bot = telebot.TeleBot(token)
 logger = telebot.logger
 telebot.logger.setLevel(logging.INFO)
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+REPO_ROOT_DIR = os.path.join(SCRIPT_DIR, '..')
+
 
 @dataclass
 class Game:
@@ -24,6 +31,7 @@ class Game:
 
     def str(self):
         return f'@{self.user1} {self.score1}:{self.score2} @{self.user2}'
+
 
 class Gameday:
     date = None
@@ -54,13 +62,14 @@ class Gameday:
     def is_active(cls):
         return cls.date
 
-def guard(usernames = None, check_is_active = True):
+
+def guard(usernames=None, check_is_active=True):
     def inner(func):
         def wrapper(message):
-            if not message.chat.id in groups:
+            if message.chat.id not in groups:
                 bot.reply_to(message, 'Invalid chat. Use in LZR squash group')
                 return
-            if usernames and not message.from_user.username in usernames:
+            if usernames and message.from_user.username not in usernames:
                 bot.reply_to(message, f'Only {format_tags(usernames)} can call this command')
                 return
             if check_is_active and not Gameday.is_active():
@@ -70,12 +79,14 @@ def guard(usernames = None, check_is_active = True):
         return wrapper
     return inner
 
+
 @bot.message_handler(commands=['forcestart'])
 @guard(admins, check_is_active=False)
 def _start(message):
     bot.reply_to(message, 'Lets play 🏸🏸🏸!')
     Gameday.init()
     bot.send_message(message.chat.id, 'Add games with /game command')
+
 
 @bot.message_handler(commands=['start'])
 @guard(admins, check_is_active=False)
@@ -84,6 +95,7 @@ def start(message):
         bot.reply_to(message, f'You have unfinished {Gameday.getDay()} gameday. If you sure - use /forcestart')
         return
     _start(message)
+
 
 @bot.message_handler(commands=['game'])
 @guard()
@@ -95,17 +107,26 @@ def game(message):
     Gameday.games.append(Game(*parsed))
     bot.send_message(message.chat.id, 'Saved! Use /info')
 
+
 @bot.message_handler(commands=['info'])
 @guard()
 def info(message):
     bot.send_message(message.chat.id, Gameday.getInfo(), parse_mode='markdown')
 
+
 @bot.message_handler(commands=['end'])
 @guard(admins)
 def end(message):
-    bot.reply_to(message, 'TODO: call @klicunou code')
+
+    games_csv_filepath = os.path.join(REPO_ROOT_DIR, 'data/games.csv')
+    games = pd.read_csv(games_csv_filepath)
+    for result in Gameday.games:
+        games = add_result(games, result.user1, result.user2, result.score1, result.score2, Gameday.date)
+    games.to_csv(games_csv_filepath, index=False)
 
     Gameday.cleanup()
+
+    update_json_data()
 
     bot.send_message(message.chat.id, 'Success! 🎉 Check out https://lzrby.github.io/squash')
 
