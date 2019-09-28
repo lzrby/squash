@@ -71,9 +71,7 @@ def update_ratings_with_game(ratings, game, set_counts):
     return new_ratings
 
 
-def count_ratings():
-    game_data_filepath = os.path.join(REPO_ROOT_DIR, 'data/games.csv')
-    games = pd.read_csv(game_data_filepath)
+def count_ratings(games):
     proper_games = games.sort_values(['Date', 'Index'])
 
     all_players = list(set(proper_games['Winner'].tolist() + proper_games['Looser'].tolist()))
@@ -128,11 +126,13 @@ def save_ratings_history_to_json(ratings_log):
         json_file.write('\n')
 
 
-def update_json_data():
-    ratings, ratings_log, set_counts = count_ratings()
+def update_json_data(games):
+    ratings, ratings_log, set_counts = count_ratings(games)
     save_ratings_to_json(ratings, ratings_log, set_counts)
     save_ratings_history_to_json(ratings_log)
 
 
 if __name__ == '__main__':
-    update_json_data()
+    game_data_filepath = os.path.join(REPO_ROOT_DIR, 'data/games.csv')
+    games = pd.read_csv(game_data_filepath)
+    update_json_data(games)

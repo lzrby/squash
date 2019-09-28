@@ -123,10 +123,9 @@ def end(message):
     for result in Gameday.games:
         games = add_result(games, result.user1, result.user2, result.score1, result.score2, Gameday.date)
     games.to_csv(games_csv_filepath, index=False)
+    update_json_data(games)
 
     Gameday.cleanup()
-
-    update_json_data()
 
     bot.send_message(message.chat.id, 'Success! 🎉 Check out https://lzrby.github.io/squash')
 
