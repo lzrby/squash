@@ -4,11 +4,8 @@ from collections import namedtuple
 import json
 import os
 
-from absl import flags, app
 import numpy as np
 import pandas as pd
-
-from common import date_is_correct, today
 
 
 GameRatings = namedtuple('GameRatings', ['my', 'opponent'])
@@ -16,17 +13,12 @@ Players = namedtuple('Players', ['winner', 'looser'])
 ScoreInSets = namedtuple('Score', ['winner', 'looser'])
 Sets = namedtuple('Sets', ['total', 'won'])
 
-SETS_COEFF_BOUND = 300
-RATING_COEFF_BOUND = 2400.00
 DEFAULT_RATING = 1400.00
+RATING_COEFF_BOUND = 2400.00
+SETS_COEFF_BOUND = 300
 
-FLAGS = flags.FLAGS
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 REPO_ROOT_DIR = os.path.join(SCRIPT_DIR, '..')
-
-flags.DEFINE_string('d', today(), ('Day of leaderboard to print in format yyyy-mm-dd. '
-                                   'If day is not specified or its value is equal to today(), '
-                                   'script will update json data.'))
 
 
 def win_set_probability(game_ratings):
@@ -79,11 +71,10 @@ def update_ratings_with_game(ratings, game, set_counts):
     return new_ratings
 
 
-def count_ratings(date):
+def count_ratings():
     game_data_filepath = os.path.join(REPO_ROOT_DIR, 'data/games.csv')
     games = pd.read_csv(game_data_filepath)
-    sorted_games = games.sort_values(['Date', 'Index'])
-    proper_games = sorted_games[sorted_games['Date'] <= date]
+    proper_games = games.sort_values(['Date', 'Index'])
 
     all_players = list(set(proper_games['Winner'].tolist() + proper_games['Looser'].tolist()))
     data = {'Rating': [DEFAULT_RATING for i in range(len(all_players))]}
@@ -137,17 +128,11 @@ def save_ratings_history_to_json(ratings_log):
         json_file.write('\n')
 
 
-def main(_):
-    if FLAGS.d == today():
-        ratings, ratings_log, set_counts = count_ratings(FLAGS.d)
-        save_ratings_to_json(ratings, ratings_log, set_counts)
-        save_ratings_history_to_json(ratings_log)
-    elif not date_is_correct(FLAGS.d):
-        print('Date is incorrect or it has wrong format')
-    else:
-        ratings, ratings_log, set_counts = count_ratings(FLAGS.d)
-        print(ratings)
+def update_json_data():
+    ratings, ratings_log, set_counts = count_ratings()
+    save_ratings_to_json(ratings, ratings_log, set_counts)
+    save_ratings_history_to_json(ratings_log)
 
 
 if __name__ == '__main__':
-    app.run(main)
+    update_json_data()
