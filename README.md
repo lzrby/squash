@@ -11,7 +11,7 @@
 
 ### get ratings
 
-- Run from terminal at repo root: `./get_ratings.py`. This will update all json data for deployment.
+- Run from terminal at repo root: `./bot/get_ratings.py`. This will update all json data for deployment.
 
 ### ui
 
