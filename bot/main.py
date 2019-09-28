@@ -7,14 +7,12 @@ import os
 from typing import List
 
 from get_ratings import update_json_data
-from settings import token, groups, admins, GAME_FORMAT
+from settings import token, groups, admins, GAME_FORMAT, REPO_ROOT_DIR
 from utils import add_result, format_tags, parse_game
 
 bot = telebot.TeleBot(token)
 logger = telebot.logger
 telebot.logger.setLevel(logging.INFO)
-
-REPO_ROOT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
 
 
 @dataclass

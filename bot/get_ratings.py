@@ -7,6 +7,7 @@ import os
 import numpy as np
 import pandas as pd
 
+from settings import REPO_ROOT_DIR
 
 GameRatings = namedtuple('GameRatings', ['my', 'opponent'])
 Players = namedtuple('Players', ['winner', 'looser'])
@@ -16,8 +17,6 @@ Sets = namedtuple('Sets', ['total', 'won'])
 DEFAULT_RATING = 1400.00
 RATING_COEFF_BOUND = 2400.00
 SETS_COEFF_BOUND = 300
-
-REPO_ROOT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
 
 
 def win_set_probability(game_ratings):
