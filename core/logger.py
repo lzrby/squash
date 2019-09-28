@@ -18,11 +18,11 @@ flags.DEFINE_string('s', None, "Result of match in W:L format (W - winner's won 
 flags.mark_flags_as_required(['w', 'l', 's'])
 
 
-def today():
+def _today():
     return datetime.now().strftime("%Y-%m-%d")
 
 
-def score_is_correct(score):
+def _score_is_correct(score):
     if not isinstance(score, str):
         return False
     score_items = score.split(':')
@@ -34,21 +34,23 @@ def score_is_correct(score):
     return True
 
 
+def add_result(games, winner, looser, score):
+    if not _score_is_correct(FLAGS.s):
+        print('Matchup adding failed: score {} is incorrect'.format(score))
+        return
+
+    new_game = {'Date': _today(), 'Winner': winner, 'Looser': looser, 'Score': score}
+    day_games = Counter(games['Date'].tolist())
+    new_game['Index'] = 1 if new_game['Date'] not in day_games.keys() else day_games[new_game['Date']] + 1
+    return games.append(new_game, ignore_index=True)
+
+
 def main(_):
     games_csv_filepath = os.path.join(REPO_ROOT_DIR, 'data/games.csv')
     games = pd.read_csv(games_csv_filepath)
-
-    if not score_is_correct(FLAGS.s):
-        print('Matchup adding failed: score {} is incorrect'.format(FLAGS.s))
-        return
-
-    new_game = {'Date': today(), 'Winner': FLAGS.w, 'Looser': FLAGS.l, 'Score': FLAGS.s}
-    day_games = Counter(games['Date'].tolist())
-    new_game['Index'] = 1 if new_game['Date'] not in day_games.keys() else day_games[new_game['Date']] + 1
-
-    games = games.append(new_game, ignore_index=True)
-    games.to_csv(games_csv_filepath, index=False)
-    print('Matchup adding succeeded')
+    games_updated = add_result(games, FLAGS.w, FLAGS.l, FLAGS.s)
+    print('Done')
+    games_updated.to_csv(games_csv_filepath, index=False)
 
 
 if __name__ == '__main__':
