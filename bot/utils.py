@@ -6,10 +6,11 @@ GAME_REGEX = r'/game @([^\s]+) (\d+):(\d+) @([^\s]+)'
 
 
 def add_result(games, player1, player2, score1, score2, date):
+    looser, winner = sorted([(score1, player1), (score2, player2)])
     new_game = {'Date': date.strftime("%Y-%m-%d"),
-                'Winner': player1 if score1 > score2 else player2,
-                'Looser': player2 if score1 > score2 else player1,
-                'Score': f'{score1}:{score2}' if score1 > score2 else f'{score2}:{score1}'}
+                'Winner': winner[1],
+                'Looser': looser[1],
+                'Score': f'{winner[0]}:{looser[0]}'}
     day_games = _counter(games['Date'].tolist())
     new_game['Index'] = 1 if new_game['Date'] not in day_games.keys() else day_games[new_game['Date']] + 1
     return games.append(new_game, ignore_index=True)

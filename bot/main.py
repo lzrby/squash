@@ -14,8 +14,7 @@ bot = telebot.TeleBot(token)
 logger = telebot.logger
 telebot.logger.setLevel(logging.INFO)
 
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-REPO_ROOT_DIR = os.path.join(SCRIPT_DIR, '..')
+REPO_ROOT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
 
 
 @dataclass

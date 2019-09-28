@@ -17,8 +17,7 @@ DEFAULT_RATING = 1400.00
 RATING_COEFF_BOUND = 2400.00
 SETS_COEFF_BOUND = 300
 
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-REPO_ROOT_DIR = os.path.join(SCRIPT_DIR, '..')
+REPO_ROOT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
 
 
 def win_set_probability(game_ratings):
