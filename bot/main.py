@@ -14,6 +14,11 @@ bot = telebot.TeleBot(token)
 logger = telebot.logger
 telebot.logger.setLevel(logging.INFO)
 
+def get_diffs_table(diffs):
+    table = ''
+    for (diff, name) in diffs:
+        table += f'- @{name}: {"+" if diff > 0 else ""}{diff}\n'
+    return table
 
 @dataclass
 class Game:
@@ -108,7 +113,7 @@ def game(message):
 @bot.message_handler(commands=['info'])
 @guard()
 def info(message):
-    bot.send_message(message.chat.id, Gameday.getInfo(), parse_mode='markdown')
+    bot.send_message(message.chat.id, Gameday.getInfo())
 
 
 @bot.message_handler(commands=['end'])
@@ -120,11 +125,11 @@ def end(message):
     for result in Gameday.games:
         games = add_result(games, result.user1, result.user2, result.score1, result.score2, Gameday.date)
     games.to_csv(games_csv_filepath, index=False)
-    update_json_data(games)
+    diifs = update_json_data(games)
 
     Gameday.cleanup()
 
-    bot.send_message(message.chat.id, 'Success! 🎉 Check out https://lzrby.github.io/squash')
+    bot.send_message(message.chat.id, f'Success! 🎉\n\n{get_diffs_table(diifs)}\nCheck out https://lzrby.github.io/squash')
 
 
 bot.polling()
