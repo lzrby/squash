@@ -129,7 +129,7 @@ def update_json_data(games):
     ratings, ratings_log, set_counts = count_ratings(games)
     save_ratings_history_to_json(ratings_log)
     new_ratings = save_ratings_to_json(ratings, ratings_log, set_counts)
-    diffs = map(lambda r: (r['prev_rating'] - r['rating'], r['name']), new_ratings)
+    diffs = map(lambda r: (r['rating'] - r['prev_rating'], r['name']), new_ratings)
     return list(filter(lambda r: r[0] != 0, diffs))
 
 
