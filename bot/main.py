@@ -125,12 +125,12 @@ def end(message):
     for result in Gameday.games:
         games = add_result(games, result.user1, result.user2, result.score1, result.score2, Gameday.date)
     games.to_csv(games_csv_filepath, index=False)
-    diifs = update_json_data(games)
+    diffs = update_json_data(games)
     commit(Gameday.getDay())
 
     Gameday.cleanup()
 
-    bot.send_message(message.chat.id, f'Success! 🎉\n\n{get_diffs_table(diifs)}\nCheck out https://lzrby.github.io/squash')
+    bot.send_message(message.chat.id, f'Success! 🎉\n\n{get_diffs_table(diffs)}\nCheck out https://lzrby.github.io/squash')
 
 
 bot.polling()
