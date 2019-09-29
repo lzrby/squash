@@ -1,4 +1,5 @@
 dataclasses
+gitpython
 numpy
 pandas
 python-dotenv
