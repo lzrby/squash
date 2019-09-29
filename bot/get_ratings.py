@@ -108,6 +108,7 @@ def save_ratings_to_json(ratings, ratings_log, set_counts):
     with open(json_filename, 'w') as json_file:
         json.dump(json_data, json_file, indent=2)
         json_file.write('\n')
+    return json_data
 
 
 def get_ratings_dict(ratings_table):
@@ -126,8 +127,10 @@ def save_ratings_history_to_json(ratings_log):
 
 def update_json_data(games):
     ratings, ratings_log, set_counts = count_ratings(games)
-    save_ratings_to_json(ratings, ratings_log, set_counts)
     save_ratings_history_to_json(ratings_log)
+    new_ratings = save_ratings_to_json(ratings, ratings_log, set_counts)
+    diffs = map(lambda r: (r['prev_rating'] - r['rating'], r['name']), new_ratings)
+    return list(filter(lambda r: r[0] != 0, diffs))
 
 
 if __name__ == '__main__':
