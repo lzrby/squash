@@ -1,3 +1,4 @@
+from git import Repo, Actor
 from collections import Counter as _counter
 import re
 
@@ -25,3 +26,14 @@ def parse_game(text):
     if not match:
         return None
     return match.groups()
+
+def commit(date):
+    repo = Repo(search_parent_directories=True)
+
+    author = Actor('wirbot', 'wir.development@gmail.com')
+    committer = Actor('wirbot', 'wir.development@gmail.com')
+
+    repo.git.add('.')
+    repo.index.commit(f'Updates: {date}', author=author, committer=committer)
+
+    repo.git.push()

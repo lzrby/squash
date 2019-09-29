@@ -8,7 +8,7 @@ from typing import List
 
 from get_ratings import update_json_data
 from settings import token, groups, admins, GAME_FORMAT, REPO_ROOT_DIR
-from utils import add_result, format_tags, parse_game
+from utils import add_result, format_tags, parse_game, commit
 
 bot = telebot.TeleBot(token)
 logger = telebot.logger
@@ -126,6 +126,7 @@ def end(message):
         games = add_result(games, result.user1, result.user2, result.score1, result.score2, Gameday.date)
     games.to_csv(games_csv_filepath, index=False)
     diifs = update_json_data(games)
+    commit(Gameday.getDay())
 
     Gameday.cleanup()
 
