@@ -4,13 +4,13 @@
     "rating": 1673,
     "sets": 132,
     "sets_won": 101,
-    "prev_rating": 1716
+    "prev_rating": 1673
   },
   {
     "name": "klicunou",
-    "rating": 1563,
-    "sets": 49,
-    "sets_won": 36,
+    "rating": 1568,
+    "sets": 53,
+    "sets_won": 39,
     "prev_rating": 1563
   },
   {
@@ -19,6 +19,13 @@
     "sets": 29,
     "sets_won": 16,
     "prev_rating": 1426
+  },
+  {
+    "name": "rubanau",
+    "rating": 1395,
+    "sets": 4,
+    "sets_won": 1,
+    "prev_rating": 1400
   },
   {
     "name": "VladDeykun",
@@ -32,14 +39,14 @@
     "rating": 1390,
     "sets": 89,
     "sets_won": 30,
-    "prev_rating": 1470
+    "prev_rating": 1390
   },
   {
     "name": "uNikalas",
     "rating": 1338,
     "sets": 27,
     "sets_won": 8,
-    "prev_rating": 1251
+    "prev_rating": 1338
   },
   {
     "name": "uladbohdan",
@@ -53,6 +60,6 @@
     "rating": 1123,
     "sets": 47,
     "sets_won": 5,
-    "prev_rating": 1087
+    "prev_rating": 1123
   }
 ]
