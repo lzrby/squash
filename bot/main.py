@@ -28,6 +28,7 @@ class Game:
     score1: int
     score2: int
     user2: str
+    tournament: str
 
     def __post_init__(self):
         self.score1 = int(self.score1)
@@ -110,7 +111,7 @@ def game(message):
     if not parsed:
         bot.reply_to(message, f'Invalid format. Use like: `{GAME_FORMAT}`', parse_mode='markdown')
         return
-    Gameday.games.append(Game(*parsed))
+    Gameday.games.append(Game(*parsed, None))
     bot.send_message(message.chat.id, 'Saved! Use /info')
 
 
@@ -128,12 +129,14 @@ def end(message):
         Gameday.init()
         return
     data_dir = os.path.abspath(os.path.join(REPO_ROOT_DIR, 'data/'))
-    csv_to_save_result = os.path.join(data_dir, f'{Gameday.date.strftime("%Y")}.csv')
-    dataframe_to_save_result = pd.read_csv(csv_to_save_result)
+    csv_path_to_save = os.path.join(data_dir, f'{Gameday.date.strftime("%Y")}.csv')
+    dataframe_to_save = pd.DataFrame(columns=['Date', 'Index', 'Winner', 'Looser', 'Score', 'Tournament'])
+    if os.path.isfile(csv_path_to_save):
+        dataframe_to_save = pd.read_csv(csv_path_to_save)
     for result in Gameday.games:
-        dataframe_to_save_result = add_result(dataframe_to_save_result,
-                                              result.user1, result.user2, result.score1, result.score2, Gameday.date)
-    dataframe_to_save_result.to_csv(csv_to_save_result, index=False)
+        dataframe_to_save = add_result(dataframe_to_save,
+                                       result.user1, result.user2, result.score1, result.score2, Gameday.date)
+    dataframe_to_save.to_csv(csv_path_to_save, index=False)
     games = read_games(data_dir)
     diffs = update_json_data(games)
     commit(Gameday.getDay())
