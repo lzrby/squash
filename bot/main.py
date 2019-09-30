@@ -116,6 +116,17 @@ def game(message):
     bot.send_message(message.chat.id, 'Saved! Use /info')
 
 
+@bot.message_handler(commands=['tourngame'])
+@guard()
+def tournament_ggame(message):
+    active_tournaments = {'LZR Open': 'group stage'}
+
+    markup = telebot.types.ReplyKeyboardMarkup(row_width=2)
+    item_buttons = [telebot.types.KeyboardButton(tournament) for tournament in active_tournaments]
+    markup.add(*item_buttons)
+    bot.send_message(message.chat.id, "Choose the tournament:", reply_markup=markup)
+
+
 @bot.message_handler(commands=['info'])
 @guard()
 def info(message):
