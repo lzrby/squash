@@ -8,17 +8,19 @@ from typing import List
 
 from get_ratings import update_json_data
 from settings import token, groups, admins, GAME_FORMAT, REPO_ROOT_DIR
-from utils import add_result, format_tags, parse_game, commit
+from utils import add_result, format_tags, parse_game, commit, read_games
 
 bot = telebot.TeleBot(token)
 logger = telebot.logger
 telebot.logger.setLevel(logging.INFO)
+
 
 def get_diffs_table(diffs):
     table = ''
     for (diff, name) in diffs:
         table += f'- @{name}: {"+" if diff > 0 else ""}{diff}\n'
     return table
+
 
 @dataclass
 class Game:
@@ -123,11 +125,14 @@ def end(message):
         bot.reply_to(message, 'No games, add with /game command, or /start to reset')
         Gameday.init()
         return
-    games_csv_filepath = os.path.join(REPO_ROOT_DIR, 'data/games.csv')
-    games = pd.read_csv(games_csv_filepath)
+    data_dir = os.path.abspath(os.path.join(REPO_ROOT_DIR, 'data/'))
+    csv_to_save_result = os.path.join(data_dir, f'{Gameday.date.strftime("%Y")}.csv')
+    dataframe_to_save_result = pd.read_csv(csv_to_save_result)
     for result in Gameday.games:
-        games = add_result(games, result.user1, result.user2, result.score1, result.score2, Gameday.date)
-    games.to_csv(games_csv_filepath, index=False)
+        dataframe_to_save_result = add_result(dataframe_to_save_result,
+                                              result.user1, result.user2, result.score1, result.score2, Gameday.date)
+    dataframe_to_save_result.to_csv(csv_to_save_result, index=False)
+    games = read_games(data_dir)
     diffs = update_json_data(games)
     commit(Gameday.getDay())
 

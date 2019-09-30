@@ -8,6 +8,7 @@ import numpy as np
 import pandas as pd
 
 from settings import REPO_ROOT_DIR
+from utils import read_games
 
 GameRatings = namedtuple('GameRatings', ['my', 'opponent'])
 Players = namedtuple('Players', ['winner', 'looser'])
@@ -134,6 +135,6 @@ def update_json_data(games):
 
 
 if __name__ == '__main__':
-    game_data_filepath = os.path.join(REPO_ROOT_DIR, 'data/games.csv')
-    games = pd.read_csv(game_data_filepath)
+    data_dir = os.path.abspath(os.path.join(REPO_ROOT_DIR, 'data/'))
+    games = read_games(data_dir)
     update_json_data(games)

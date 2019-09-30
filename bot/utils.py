@@ -1,5 +1,8 @@
 from git import Repo, Actor
 from collections import Counter as _counter
+from os import listdir
+from os.path import join, splitext
+import pandas as pd
 import re
 
 # https://regex101.com/r/9dIo49/2
@@ -27,6 +30,7 @@ def parse_game(text):
         return None
     return match.groups()
 
+
 def commit(date):
     repo = Repo(search_parent_directories=True)
 
@@ -37,3 +41,9 @@ def commit(date):
     repo.index.commit(f'Updates: {date}', author=author, committer=committer)
 
     repo.git.push()
+
+
+def read_games(data_dir):
+    csv_list = list(sorted([join(data_dir, path) for path in listdir(data_dir) if splitext(path)[1] == '.csv']))
+    games = pd.concat([pd.read_csv(csv) for csv in csv_list]).reset_index(drop=True)
+    return games
