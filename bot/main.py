@@ -113,7 +113,7 @@ def game(message):
 @bot.message_handler(commands=['info'])
 @guard()
 def info(message):
-    bot.send_message(message.chat.id, Gameday.getInfo(), disable_notificatio=True)
+    bot.send_message(message.chat.id, Gameday.getInfo(), disable_notification=True)
 
 
 @bot.message_handler(commands=['end'])
@@ -133,7 +133,7 @@ def end(message):
 
     Gameday.cleanup()
 
-    bot.send_message(message.chat.id, f'Success! 🎉\n\n{get_diffs_table(diffs)}\nCheck out https://lzrby.github.io/squash', disable_notificatio=True)
+    bot.send_message(message.chat.id, f'Success! 🎉\n\n{get_diffs_table(diffs)}\nCheck out https://lzrby.github.io/squash', disable_notification=True)
 
 
 bot.polling()
