@@ -7,8 +7,8 @@ import os
 from typing import List
 
 from get_ratings import update_json_data
-from settings import token, groups, admins, GAME_FORMAT, REPO_ROOT_DIR
-from utils import add_result, format_tags, parse_game, commit, read_games
+from settings import token, groups, admins, GAME_FORMAT, REPO_ROOT_DIR, DATA_DIR
+from utils import add_result, format_tags, parse_game, commit
 
 bot = telebot.TeleBot(token)
 logger = telebot.logger
@@ -129,8 +129,7 @@ def end(message):
         bot.reply_to(message, 'No games, add with /game command, or /start to reset')
         Gameday.init()
         return
-    data_dir = os.path.abspath(os.path.join(REPO_ROOT_DIR, 'data/'))
-    csv_path_to_save = os.path.join(data_dir, f'{Gameday.date.strftime("%Y")}.csv')
+    csv_path_to_save = os.path.join(DATA_DIR, f'{Gameday.date.strftime("%Y")}.csv')
     dataframe_to_save = pd.DataFrame(columns=['Date', 'Index', 'Winner', 'Looser', 'Score', 'Tournament', 'Stage'])
     if os.path.isfile(csv_path_to_save):
         dataframe_to_save = pd.read_csv(csv_path_to_save)
@@ -141,8 +140,7 @@ def end(message):
                                        result.tournament, result.stage,
                                        Gameday.date)
     dataframe_to_save.to_csv(csv_path_to_save, index=False)
-    games = read_games(data_dir)
-    diffs = update_json_data(games)
+    diffs = update_json_data()
     commit(Gameday.getDay())
 
     Gameday.cleanup()

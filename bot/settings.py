@@ -9,3 +9,4 @@ admins = ['drapegnik', 'klicunou']
 
 GAME_FORMAT = '/game @Drapegnik 5:0 @uladbohdan'
 REPO_ROOT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
+DATA_DIR = os.path.abspath(os.path.join(REPO_ROOT_DIR, 'data/'))
