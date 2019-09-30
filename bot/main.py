@@ -32,6 +32,8 @@ class Game:
     def __post_init__(self):
         self.score1 = int(self.score1)
         self.score2 = int(self.score2)
+        self.user1 = self.user1.lower()
+        self.user2 = self.user2.lower()
 
     def str(self):
         return f'@{self.user1} {self.score1}:{self.score2} @{self.user2}'
