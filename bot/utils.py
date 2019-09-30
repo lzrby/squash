@@ -9,13 +9,14 @@ import re
 GAME_REGEX = r'/game @([^\s]+) (\d+):(\d+) @([^\s]+)'
 
 
-def add_result(games, player1, player2, score1, score2, date, tournament=None):
+def add_result(games, player1, player2, score1, score2, tournament, stage, date):
     looser, winner = sorted([(score1, player1), (score2, player2)])
     new_game = {'Date': date.strftime("%Y-%m-%d"),
                 'Winner': winner[1],
                 'Looser': looser[1],
                 'Score': f'{winner[0]}:{looser[0]}',
-                'Tournament': tournament}
+                'Tournament': tournament,
+                'Stage': stage}
     day_games = _counter(games['Date'].tolist())
     new_game['Index'] = 1 if new_game['Date'] not in day_games.keys() else day_games[new_game['Date']] + 1
     return games.append(new_game, ignore_index=True)
