@@ -72,7 +72,7 @@ def guard(usernames=None, check_is_active=True):
                 bot.reply_to(message, 'Invalid chat. Use in LZR squash group')
                 return
             if usernames and message.from_user.username not in usernames:
-                bot.reply_to(message, f'Only {format_tags(usernames)} can call this command')
+                bot.reply_to(message, f'Only {format_tags(usernames)} can call this command', disable_notification=True)
                 return
             if check_is_active and not Gameday.is_active():
                 bot.reply_to(message, 'First, /start gameday')
@@ -113,13 +113,16 @@ def game(message):
 @bot.message_handler(commands=['info'])
 @guard()
 def info(message):
-    bot.send_message(message.chat.id, Gameday.getInfo())
+    bot.send_message(message.chat.id, Gameday.getInfo(), disable_notificatio=True)
 
 
 @bot.message_handler(commands=['end'])
 @guard(admins)
 def end(message):
-
+    if not len(Gameday.games):
+        bot.reply_to(message, 'No games, add with /game command, or /start to reset')
+        Gameday.init()
+        return
     games_csv_filepath = os.path.join(REPO_ROOT_DIR, 'data/games.csv')
     games = pd.read_csv(games_csv_filepath)
     for result in Gameday.games:
@@ -130,7 +133,7 @@ def end(message):
 
     Gameday.cleanup()
 
-    bot.send_message(message.chat.id, f'Success! 🎉\n\n{get_diffs_table(diffs)}\nCheck out https://lzrby.github.io/squash')
+    bot.send_message(message.chat.id, f'Success! 🎉\n\n{get_diffs_table(diffs)}\nCheck out https://lzrby.github.io/squash', disable_notificatio=True)
 
 
 bot.polling()
