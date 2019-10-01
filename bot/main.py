@@ -15,6 +15,8 @@ bot = telebot.TeleBot(token)
 logger = telebot.logger
 telebot.logger.setLevel(logging.INFO)
 
+RESULT_FORMAT = '@Drapegnik 5:0 @uladbohdan'
+
 
 def get_diffs_table(diffs):
     table = ''
@@ -113,8 +115,7 @@ def start(message):
 def game(message):
     parsed = parse_game(message.text)
     if not parsed:
-        game_format = '/game @Drapegnik 5:0 @uladbohdan'
-        bot.reply_to(message, f'Invalid format. Use like: `{game_format}`', parse_mode='markdown')
+        bot.reply_to(message, f'Invalid format. Use like: `/game {RESULT_FORMAT}`', parse_mode='markdown')
         return
     Gameday.games.append(Game(*parsed, None, None))
     bot.send_message(message.chat.id, 'Saved! Use /info')
@@ -126,7 +127,7 @@ def tournament_game(message):
     parsed = parse_game(message.text)
     if not parsed:
         tourngame_format = '/tourngame @Drapegnik 5:0 @uladbohdan'
-        bot.reply_to(message, f'Invalid format. Use like: `{tourngame_format}`', parse_mode='markdown')
+        bot.reply_to(message, f'Invalid format. Use like: `/tourngame {RESULT_FORMAT}`', parse_mode='markdown')
         return
 
     if len(active_tournaments) == 0:
@@ -149,7 +150,6 @@ def tournament_game(message):
 
 
 def assign_tournament(message):
-    print(message.text)
     if message.text in active_tournaments:
         Gameday.games[-1].tournament = message.text
         Gameday.games[-1].stage = active_tournaments[message.text]

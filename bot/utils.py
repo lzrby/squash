@@ -21,18 +21,12 @@ def format_tags(usernames):
 
 
 def parse_game(text):
-    # https://regex101.com/r/9dIo49/2
-    game_regex = r'/game @([^\s]+) (\d+):(\d+) @([^\s]+)'
-    tourngame_regex = r'/tourngame @([^\s]+) (\d+):(\d+) @([^\s]+)'
-
+    # https://regex101.com/r/9dIo49/3
+    game_regex = r'/(tourngame|game) @([^\s]+) (\d+):(\d+) @([^\s]+)'
     match_game = re.search(game_regex, text)
-    match_tourngame = re.search(tourngame_regex, text)
-    if not match_game and not match_tourngame:
+    if not match_game:
         return None
-    if match_game:
-        return match_game.groups()
-    else:
-        return match_tourngame.groups()
+    return match_game.groups()[1:]
 
 
 def commit(date):
