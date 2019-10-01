@@ -131,3 +131,6 @@ dmypy.json
 
 # mac
 .DS_Store
+
+# bot logs
+nohup.out

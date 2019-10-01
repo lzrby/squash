@@ -7,12 +7,16 @@ import os
 from typing import List
 
 from get_ratings import update_json_data
-from settings import token, groups, admins, GAME_FORMAT, REPO_ROOT_DIR
+from settings import token, groups, admins, active_tournaments, DATA_DIR
 from utils import add_result, format_tags, parse_game, commit
+
 
 bot = telebot.TeleBot(token)
 logger = telebot.logger
 telebot.logger.setLevel(logging.INFO)
+
+RESULT_FORMAT = '@Drapegnik 5:0 @uladbohdan'
+
 
 def get_diffs_table(diffs):
     table = ''
@@ -20,19 +24,25 @@ def get_diffs_table(diffs):
         table += f'- @{name}: {"+" if diff > 0 else ""}{diff}\n'
     return table
 
+
 @dataclass
 class Game:
     user1: str
     score1: int
     score2: int
     user2: str
+    tournament: str
+    stage: str
 
     def __post_init__(self):
         self.score1 = int(self.score1)
         self.score2 = int(self.score2)
+        self.user1 = self.user1.lower()
+        self.user2 = self.user2.lower()
 
     def str(self):
-        return f'@{self.user1} {self.score1}:{self.score2} @{self.user2}'
+        tournament_postfix = '' if self.tournament is None else f' ({self.tournament}: {self.stage})'
+        return f'@{self.user1} {self.score1}:{self.score2} @{self.user2}' + tournament_postfix
 
 
 class Gameday:
@@ -72,7 +82,8 @@ def guard(usernames=None, check_is_active=True):
                 bot.reply_to(message, 'Invalid chat. Use in LZR squash group')
                 return
             if usernames and message.from_user.username not in usernames:
-                bot.reply_to(message, f'Only {format_tags(usernames)} can call this command', disable_notification=True)
+                reply_text = f'Only {format_tags(usernames)} may call this command'
+                bot.reply_to(message, reply_text, disable_notification=True)
                 return
             if check_is_active and not Gameday.is_active():
                 bot.reply_to(message, 'First, /start gameday')
@@ -87,7 +98,7 @@ def guard(usernames=None, check_is_active=True):
 def _start(message):
     bot.reply_to(message, 'Lets play 🏸🏸🏸!')
     Gameday.init()
-    bot.send_message(message.chat.id, 'Add games with /game command')
+    bot.send_message(message.chat.id, 'Add games with /game and /tourngame commands')
 
 
 @bot.message_handler(commands=['start'])
@@ -104,10 +115,48 @@ def start(message):
 def game(message):
     parsed = parse_game(message.text)
     if not parsed:
-        bot.reply_to(message, f'Invalid format. Use like: `{GAME_FORMAT}`', parse_mode='markdown')
+        bot.reply_to(message, f'Invalid format. Use like: `/game {RESULT_FORMAT}`', parse_mode='markdown')
         return
-    Gameday.games.append(Game(*parsed))
+    Gameday.games.append(Game(*parsed, None, None))
     bot.send_message(message.chat.id, 'Saved! Use /info')
+
+
+@bot.message_handler(commands=['tourngame'])
+@guard()
+def tournament_game(message):
+    parsed = parse_game(message.text)
+    if not parsed:
+        bot.reply_to(message, f'Invalid format. Use like: `/tourngame {RESULT_FORMAT}`', parse_mode='markdown')
+        return
+
+    if len(active_tournaments) == 0:
+        bot.send_message(message.chat.id, 'No active tournaments found')
+        return
+
+    if len(active_tournaments) == 1:
+        tournament, stage = list(active_tournaments.items())[0]
+        Gameday.games.append(Game(*parsed, tournament, stage))
+        bot.send_message(message.chat.id, 'Saved! Use /info')
+        return
+
+    Gameday.games.append(Game(*parsed, None, None))
+
+    markup = telebot.types.ReplyKeyboardMarkup(row_width=3, one_time_keyboard=True)
+    item_buttons = [telebot.types.KeyboardButton(tournament) for tournament in active_tournaments]
+    markup.add(*item_buttons)
+    msg = bot.send_message(message.chat.id, 'Choose the tournament:', reply_markup=markup)
+    bot.register_next_step_handler(msg, assign_tournament)
+
+
+def assign_tournament(message):
+    if message.text in active_tournaments:
+        Gameday.games[-1].tournament = message.text
+        Gameday.games[-1].stage = active_tournaments[message.text]
+        bot.send_message(message.chat.id, 'Saved! Use /info')
+    else:
+        markup = telebot.types.ReplyKeyboardRemove(selective=False)
+        bot.send_message(message.chat.id, 'Error', reply_markup=markup)
+        Gameday.games.pop()
 
 
 @bot.message_handler(commands=['info'])
@@ -120,20 +169,27 @@ def info(message):
 @guard(admins)
 def end(message):
     if not len(Gameday.games):
-        bot.reply_to(message, 'No games, add with /game command, or /start to reset')
+        bot.reply_to(message, 'No games, add with /game or /tourngame command, or /start to reset')
         Gameday.init()
         return
-    games_csv_filepath = os.path.join(REPO_ROOT_DIR, 'data/games.csv')
-    games = pd.read_csv(games_csv_filepath)
+    csv_path_to_save = os.path.join(DATA_DIR, f'{Gameday.date.strftime("%Y")}.csv')
+    dataframe_to_save = pd.DataFrame(columns=['Date', 'Index', 'Winner', 'Looser', 'Score', 'Tournament', 'Stage'])
+    if os.path.isfile(csv_path_to_save):
+        dataframe_to_save = pd.read_csv(csv_path_to_save)
     for result in Gameday.games:
-        games = add_result(games, result.user1, result.user2, result.score1, result.score2, Gameday.date)
-    games.to_csv(games_csv_filepath, index=False)
-    diffs = update_json_data(games)
+        dataframe_to_save = add_result(dataframe_to_save,
+                                       result.user1, result.user2,
+                                       result.score1, result.score2,
+                                       result.tournament, result.stage,
+                                       Gameday.date)
+    dataframe_to_save.to_csv(csv_path_to_save, index=False)
+    diffs = update_json_data()
     commit(Gameday.getDay())
 
     Gameday.cleanup()
 
-    bot.send_message(message.chat.id, f'Success! 🎉\n\n{get_diffs_table(diffs)}\nCheck out https://lzrby.github.io/squash', disable_notification=True)
+    message_text = f'Success! 🎉\n\n{get_diffs_table(diffs)}\nCheck out https://lzrby.github.io/squash'
+    bot.send_message(message.chat.id, message_text, disable_notification=True)
 
 
 bot.polling()

@@ -2,12 +2,13 @@
 
 from collections import namedtuple
 import json
-import os
+from os import listdir
+from os.path import join, splitext
 
 import numpy as np
 import pandas as pd
 
-from settings import REPO_ROOT_DIR
+from settings import REPO_ROOT_DIR, DATA_DIR
 
 GameRatings = namedtuple('GameRatings', ['my', 'opponent'])
 Players = namedtuple('Players', ['winner', 'looser'])
@@ -104,7 +105,7 @@ def save_ratings_to_json(ratings, ratings_log, set_counts):
                                        'sets_won': int(set_counts[name].won),
                                        'prev_rating': get_previous_rating(name, ratings_log)
                                        }, ratings.index))
-    json_filename = os.path.join(REPO_ROOT_DIR, 'leaderboard-ui/src/rating.json')
+    json_filename = join(REPO_ROOT_DIR, 'leaderboard-ui/src/rating.json')
     with open(json_filename, 'w') as json_file:
         json.dump(json_data, json_file, indent=2)
         json_file.write('\n')
@@ -119,13 +120,20 @@ def save_ratings_history_to_json(ratings_log):
     json_data = list(map(lambda ratings_log_item: {'date': ratings_log_item[0],
                                                    'ratings': get_ratings_dict(ratings_log_item[1])
                                                    }, ratings_log))
-    json_filename = os.path.join(REPO_ROOT_DIR, 'leaderboard-ui/src/ratings_history.json')
+    json_filename = join(REPO_ROOT_DIR, 'leaderboard-ui/src/ratings_history.json')
     with open(json_filename, 'w') as json_file:
         json.dump(json_data, json_file, indent=2)
         json_file.write('\n')
 
 
-def update_json_data(games):
+def read_games(data_dir):
+    csv_list = list(sorted([join(data_dir, path) for path in listdir(data_dir) if splitext(path)[1] == '.csv']))
+    games = pd.concat([pd.read_csv(csv) for csv in csv_list]).reset_index(drop=True)
+    return games
+
+
+def update_json_data():
+    games = read_games(DATA_DIR)
     ratings, ratings_log, set_counts = count_ratings(games)
     save_ratings_history_to_json(ratings_log)
     new_ratings = save_ratings_to_json(ratings, ratings_log, set_counts)
@@ -134,6 +142,4 @@ def update_json_data(games):
 
 
 if __name__ == '__main__':
-    game_data_filepath = os.path.join(REPO_ROOT_DIR, 'data/games.csv')
-    games = pd.read_csv(game_data_filepath)
-    update_json_data(games)
+    update_json_data()
