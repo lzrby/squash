@@ -7,7 +7,7 @@ import os
 from typing import List
 
 from get_ratings import update_json_data
-from settings import token, groups, admins, active_tournaments, GAME_FORMAT, DATA_DIR
+from settings import token, groups, admins, active_tournaments, DATA_DIR
 from utils import add_result, format_tags, parse_game, commit
 
 
@@ -96,7 +96,7 @@ def guard(usernames=None, check_is_active=True):
 def _start(message):
     bot.reply_to(message, 'Lets play 🏸🏸🏸!')
     Gameday.init()
-    bot.send_message(message.chat.id, 'Add games with /game and /tourngamme commands')
+    bot.send_message(message.chat.id, 'Add games with /game and /tourngame commands')
 
 
 @bot.message_handler(commands=['start'])
@@ -113,7 +113,8 @@ def start(message):
 def game(message):
     parsed = parse_game(message.text)
     if not parsed:
-        bot.reply_to(message, f'Invalid format. Use like: `{GAME_FORMAT}`', parse_mode='markdown')
+        game_format = '/game @Drapegnik 5:0 @uladbohdan'
+        bot.reply_to(message, f'Invalid format. Use like: `{game_format}`', parse_mode='markdown')
         return
     Gameday.games.append(Game(*parsed, None, None))
     bot.send_message(message.chat.id, 'Saved! Use /info')
@@ -124,14 +125,26 @@ def game(message):
 def tournament_game(message):
     parsed = parse_game(message.text)
     if not parsed:
-        bot.reply_to(message, f'Invalid format. Use like: `{GAME_FORMAT}`', parse_mode='markdown')
+        tourngame_format = '/tourngame @Drapegnik 5:0 @uladbohdan'
+        bot.reply_to(message, f'Invalid format. Use like: `{tourngame_format}`', parse_mode='markdown')
         return
+
+    if len(active_tournaments) == 0:
+        bot.send_message(message.chat.id, 'No active tournaments found')
+        return
+
+    if len(active_tournaments) == 1:
+        tournament, stage = list(active_tournaments.items())[0]
+        Gameday.games.append(Game(*parsed, tournament, stage))
+        bot.send_message(message.chat.id, 'Saved! Use /info')
+        return
+
     Gameday.games.append(Game(*parsed, None, None))
 
     markup = telebot.types.ReplyKeyboardMarkup(row_width=3, one_time_keyboard=True)
     item_buttons = [telebot.types.KeyboardButton(tournament) for tournament in active_tournaments]
     markup.add(*item_buttons)
-    msg = bot.send_message(message.chat.id, "Choose the tournament:", reply_markup=markup)
+    msg = bot.send_message(message.chat.id, 'Choose the tournament:', reply_markup=markup)
     bot.register_next_step_handler(msg, assign_tournament)
 
 
@@ -143,7 +156,7 @@ def assign_tournament(message):
         bot.send_message(message.chat.id, 'Saved! Use /info')
     else:
         markup = telebot.types.ReplyKeyboardRemove(selective=False)
-        bot.send_message(message.chat.id, "Tournament wasn't chosen", reply_markup=markup)
+        bot.send_message(message.chat.id, 'Error', reply_markup=markup)
         Gameday.games.pop()
 
 
