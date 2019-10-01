@@ -126,7 +126,6 @@ def game(message):
 def tournament_game(message):
     parsed = parse_game(message.text)
     if not parsed:
-        tourngame_format = '/tourngame @Drapegnik 5:0 @uladbohdan'
         bot.reply_to(message, f'Invalid format. Use like: `/tourngame {RESULT_FORMAT}`', parse_mode='markdown')
         return
 
