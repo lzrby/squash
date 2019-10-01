@@ -1,6 +1,8 @@
 # squash
 
-🏸 squash club rating tools
+🏸 squash club rating tools & telegram bot
+
+<img src="https://res.cloudinary.com/dzsjwgjii/image/upload/v1569925750/squash-bot-1.jpg" width="320px"/><img src="https://res.cloudinary.com/dzsjwgjii/image/upload/v1569925750/squash-bot-2.jpg" width="320px"/>
 
 ## setup
 
@@ -16,3 +18,8 @@
 ### ui
 
 - `npm run deploy` to update rating on [lzrby.github.io/squash](http://lzrby.github.io/squash)
+
+### bot
+
+- `python bot/main.py`
+- on server: `sudo python3.7 bot/main.py &amp;`
