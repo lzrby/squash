@@ -22,11 +22,11 @@ def format_tags(usernames):
 
 def parse_game(text):
     # https://regex101.com/r/9dIo49/3
-    game_regex = r'/(tourngame|game) @([^\s]+) (\d+):(\d+) @([^\s]+)'
+    game_regex = r'/(?:tourngame|game) @([^\s]+) (\d+):(\d+) @([^\s]+)'
     match_game = re.search(game_regex, text)
     if not match_game:
         return None
-    return match_game.groups()[1:]
+    return match_game.groups()
 
 
 def commit(date):
