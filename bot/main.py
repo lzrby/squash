@@ -96,9 +96,11 @@ def guard(usernames=None, check_is_active=True):
 @bot.message_handler(commands=['forcestart'])
 @guard(admins, check_is_active=False)
 def _start(message):
-    bot.reply_to(message, 'Lets play 🏸🏸🏸!')
+    reply_text = ('Lets play 🏸🏸🏸!\n'
+                 'Add games with /game and /tourngame commands.\n'
+                 'Check games added using /info command.')
+    bot.reply_to(message, reply_text)
     Gameday.init()
-    bot.send_message(message.chat.id, 'Add games with /game and /tourngame commands')
 
 
 @bot.message_handler(commands=['start'])
@@ -118,7 +120,6 @@ def game(message):
         bot.reply_to(message, f'Invalid format. Use like: `/game {RESULT_FORMAT}`', parse_mode='markdown')
         return
     Gameday.games.append(Game(*parsed, None, None))
-    bot.send_message(message.chat.id, 'Saved! Use /info')
 
 
 @bot.message_handler(commands=['tourngame'])
@@ -136,7 +137,6 @@ def tournament_game(message):
     if len(active_tournaments) == 1:
         tournament, stage = list(active_tournaments.items())[0]
         Gameday.games.append(Game(*parsed, tournament, stage))
-        bot.send_message(message.chat.id, 'Saved! Use /info')
         return
 
     Gameday.games.append(Game(*parsed, None, None))
@@ -152,7 +152,6 @@ def assign_tournament(message):
     if message.text in active_tournaments:
         Gameday.games[-1].tournament = message.text
         Gameday.games[-1].stage = active_tournaments[message.text]
-        bot.send_message(message.chat.id, 'Saved! Use /info')
     else:
         markup = telebot.types.ReplyKeyboardRemove(selective=False)
         bot.send_message(message.chat.id, 'Error', reply_markup=markup)
