@@ -7,7 +7,7 @@ import os
 from typing import List
 
 from get_ratings import update_json_data
-from settings import token, groups, admins, active_tournaments, GAME_FORMAT, REPO_ROOT_DIR, DATA_DIR
+from settings import token, groups, admins, active_tournaments, GAME_FORMAT, DATA_DIR
 from utils import add_result, format_tags, parse_game, commit
 
 
@@ -80,7 +80,8 @@ def guard(usernames=None, check_is_active=True):
                 bot.reply_to(message, 'Invalid chat. Use in LZR squash group')
                 return
             if usernames and message.from_user.username not in usernames:
-                bot.reply_to(message, f'Only {format_tags(usernames)} can call this command', disable_notification=True)
+                reply_text = f'Only {format_tags(usernames)} may call this command'
+                bot.reply_to(message, reply_text, disable_notification=True)
                 return
             if check_is_active and not Gameday.is_active():
                 bot.reply_to(message, 'First, /start gameday')
@@ -95,7 +96,7 @@ def guard(usernames=None, check_is_active=True):
 def _start(message):
     bot.reply_to(message, 'Lets play 🏸🏸🏸!')
     Gameday.init()
-    bot.send_message(message.chat.id, 'Add games with /game command')
+    bot.send_message(message.chat.id, 'Add games with /game and /tourngamme commands')
 
 
 @bot.message_handler(commands=['start'])
@@ -156,7 +157,7 @@ def info(message):
 @guard(admins)
 def end(message):
     if not len(Gameday.games):
-        bot.reply_to(message, 'No games, add with /game command, or /start to reset')
+        bot.reply_to(message, 'No games, add with /game or /tourngame command, or /start to reset')
         Gameday.init()
         return
     csv_path_to_save = os.path.join(DATA_DIR, f'{Gameday.date.strftime("%Y")}.csv')
@@ -175,7 +176,8 @@ def end(message):
 
     Gameday.cleanup()
 
-    bot.send_message(message.chat.id, f'Success! 🎉\n\n{get_diffs_table(diffs)}\nCheck out https://lzrby.github.io/squash', disable_notification=True)
+    message_text = f'Success! 🎉\n\n{get_diffs_table(diffs)}\nCheck out https://lzrby.github.io/squash'
+    bot.send_message(message.chat.id, message_text, disable_notification=True)
 
 
 bot.polling()
