@@ -1,9 +1,9 @@
 [
   {
     "name": "lucky_looser",
-    "rating": 1676,
-    "sets": 132,
-    "sets_won": 101,
+    "rating": 1661,
+    "sets": 139,
+    "sets_won": 107,
     "prev_rating": 1676
   },
   {
@@ -11,13 +11,13 @@
     "rating": 1568,
     "sets": 53,
     "sets_won": 39,
-    "prev_rating": 1563
+    "prev_rating": 1568
   },
   {
     "name": "drapegnik",
-    "rating": 1426,
-    "sets": 29,
-    "sets_won": 16,
+    "rating": 1464,
+    "sets": 37,
+    "sets_won": 23,
     "prev_rating": 1426
   },
   {
@@ -25,7 +25,7 @@
     "rating": 1395,
     "sets": 4,
     "sets_won": 1,
-    "prev_rating": 1400
+    "prev_rating": 1395
   },
   {
     "name": "vladdeykun",
@@ -40,6 +40,13 @@
     "sets": 89,
     "sets_won": 30,
     "prev_rating": 1392
+  },
+  {
+    "name": "lisouski",
+    "rating": 1364,
+    "sets": 7,
+    "sets_won": 1,
+    "prev_rating": 1400
   },
   {
     "name": "unikalas",
@@ -57,9 +64,9 @@
   },
   {
     "name": "iraborsch",
-    "rating": 1123,
-    "sets": 47,
-    "sets_won": 5,
+    "rating": 1136,
+    "sets": 55,
+    "sets_won": 6,
     "prev_rating": 1123
   }
 ]
