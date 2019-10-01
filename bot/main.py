@@ -7,8 +7,9 @@ import os
 from typing import List
 
 from get_ratings import update_json_data
-from settings import token, groups, admins, GAME_FORMAT, REPO_ROOT_DIR, DATA_DIR
+from settings import token, groups, admins, active_tournaments, GAME_FORMAT, REPO_ROOT_DIR, DATA_DIR
 from utils import add_result, format_tags, parse_game, commit
+
 
 bot = telebot.TeleBot(token)
 logger = telebot.logger
@@ -38,7 +39,8 @@ class Game:
         self.user2 = self.user2.lower()
 
     def str(self):
-        return f'@{self.user1} {self.score1}:{self.score2} @{self.user2}'
+        tournament_postfix = '' if self.tournament is None else f' ({self.tournament}: {self.stage})'
+        return f'@{self.user1} {self.score1}:{self.score2} @{self.user2}' + tournament_postfix
 
 
 class Gameday:
@@ -118,13 +120,30 @@ def game(message):
 
 @bot.message_handler(commands=['tourngame'])
 @guard()
-def tournament_ggame(message):
-    active_tournaments = {'LZR Open': 'group stage'}
+def tournament_game(message):
+    parsed = parse_game(message.text)
+    if not parsed:
+        bot.reply_to(message, f'Invalid format. Use like: `{GAME_FORMAT}`', parse_mode='markdown')
+        return
+    Gameday.games.append(Game(*parsed, None, None))
 
-    markup = telebot.types.ReplyKeyboardMarkup(row_width=2)
+    markup = telebot.types.ReplyKeyboardMarkup(row_width=3, one_time_keyboard=True)
     item_buttons = [telebot.types.KeyboardButton(tournament) for tournament in active_tournaments]
     markup.add(*item_buttons)
-    bot.send_message(message.chat.id, "Choose the tournament:", reply_markup=markup)
+    msg = bot.send_message(message.chat.id, "Choose the tournament:", reply_markup=markup)
+    bot.register_next_step_handler(msg, assign_tournament)
+
+
+def assign_tournament(message):
+    print(message.text)
+    if message.text in active_tournaments:
+        Gameday.games[-1].tournament = message.text
+        Gameday.games[-1].stage = active_tournaments[message.text]
+        bot.send_message(message.chat.id, 'Saved! Use /info')
+    else:
+        markup = telebot.types.ReplyKeyboardRemove(selective=False)
+        bot.send_message(message.chat.id, "Tournament wasn't chosen", reply_markup=markup)
+        Gameday.games.pop()
 
 
 @bot.message_handler(commands=['info'])

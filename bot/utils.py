@@ -2,9 +2,6 @@ from git import Repo, Actor
 from collections import Counter as _counter
 import re
 
-# https://regex101.com/r/9dIo49/2
-GAME_REGEX = r'/game @([^\s]+) (\d+):(\d+) @([^\s]+)'
-
 
 def add_result(games, player1, player2, score1, score2, tournament, stage, date):
     looser, winner = sorted([(score1, player1), (score2, player2)])
@@ -24,10 +21,18 @@ def format_tags(usernames):
 
 
 def parse_game(text):
-    match = re.search(GAME_REGEX, text)
-    if not match:
+    # https://regex101.com/r/9dIo49/2
+    game_regex = r'/game @([^\s]+) (\d+):(\d+) @([^\s]+)'
+    tourngame_regex = r'/tourngame @([^\s]+) (\d+):(\d+) @([^\s]+)'
+
+    match_game = re.search(game_regex, text)
+    match_tourngame = re.search(tourngame_regex, text)
+    if not match_game and not match_tourngame:
         return None
-    return match.groups()
+    if match_game:
+        return match_game.groups()
+    else:
+        return match_tourngame.groups()
 
 
 def commit(date):
