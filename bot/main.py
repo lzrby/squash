@@ -97,8 +97,8 @@ def guard(usernames=None, check_is_active=True):
 @guard(admins, check_is_active=False)
 def _start(message):
     reply_text = ('Lets play 🏸🏸🏸!\n'
-                 'Add games with /game and /tourngame commands.\n'
-                 'Check games added using /info command.')
+                  'Add games with /game and /tourngame commands.\n'
+                  'Check games added using /info command.')
     bot.reply_to(message, reply_text)
     Gameday.init()
 

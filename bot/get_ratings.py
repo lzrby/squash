@@ -116,14 +116,23 @@ def get_ratings_dict(ratings_table):
     return {name: int(np.round(ratings_table.loc[name]['Rating'])) for name in sorted(ratings_table.index)}
 
 
+def get_year(date):
+    return date[:date.find('-')]
+
+
 def save_ratings_history_to_json(ratings_log):
+    json_history_dir = join(REPO_ROOT_DIR, 'leaderboard-ui/src/ratings_history')
     json_data = list(map(lambda ratings_log_item: {'date': ratings_log_item[0],
                                                    'ratings': get_ratings_dict(ratings_log_item[1])
                                                    }, ratings_log))
-    json_filename = join(REPO_ROOT_DIR, 'leaderboard-ui/src/ratings_history.json')
-    with open(json_filename, 'w') as json_file:
-        json.dump(json_data, json_file, indent=2)
-        json_file.write('\n')
+    year_list = list(map(lambda json_data_item: get_year(json_data_item['date']), json_data))
+    for year in set(year_list):
+        left = year_list.index(year)
+        right = len(year_list) - 1 - year_list[::-1].index(year)
+        json_filename = join(json_history_dir, f'{year}.json')
+        with open(json_filename, 'w') as json_file:
+            json.dump(json_data[left:right+1], json_file, indent=2)
+            json_file.write('\n')
 
 
 def read_games(data_dir):
