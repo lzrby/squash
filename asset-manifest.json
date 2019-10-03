@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/squash/static/css/main.8ccecffa.chunk.css",
-    "main.js": "/squash/static/js/main.2a99aa99.chunk.js",
-    "main.js.map": "/squash/static/js/main.2a99aa99.chunk.js.map",
+    "main.js": "/squash/static/js/main.6614e155.chunk.js",
+    "main.js.map": "/squash/static/js/main.6614e155.chunk.js.map",
     "runtime~main.js": "/squash/static/js/runtime~main.7d8d6123.js",
     "runtime~main.js.map": "/squash/static/js/runtime~main.7d8d6123.js.map",
     "static/js/2.b41502e9.chunk.js": "/squash/static/js/2.b41502e9.chunk.js",
     "static/js/2.b41502e9.chunk.js.map": "/squash/static/js/2.b41502e9.chunk.js.map",
     "index.html": "/squash/index.html",
-    "precache-manifest.94c556fe412165d17683cfe749012270.js": "/squash/precache-manifest.94c556fe412165d17683cfe749012270.js",
+    "precache-manifest.a8428b6891a244fde578e8c320d5cdfb.js": "/squash/precache-manifest.a8428b6891a244fde578e8c320d5cdfb.js",
     "service-worker.js": "/squash/service-worker.js",
     "static/css/main.8ccecffa.chunk.css.map": "/squash/static/css/main.8ccecffa.chunk.css.map"
   }
