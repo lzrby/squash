@@ -1,0 +1,100 @@
+\documentclass[12pt, a4paper]{extarticle}
+
+\usepackage{geometry}
+\usepackage{titlesec}
+\usepackage[utf8]{inputenc}
+\usepackage[english, russian]{babel}
+\usepackage[normalem]{ulem}
+\usepackage{soul}
+\usepackage{verbatim}
+\usepackage{tabularx}
+\usepackage{tabulary}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage{amssymb,amsfonts,amsmath,cite,enumerate,float,indentfirst}
+\usepackage{mathrsfs}
+\usepackage{comment}
+\usepackage{verbatim}
+\usepackage{mathtools}
+\usepackage{caption}
+\usepackage{wrapfig}
+\usepackage{mathtext} %cyrillic text in math mode, not recommended
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{enumitem}
+\usepackage[table]{xcolor}
+
+\geometry{left=20mm, right=10mm, top=20mm, bottom=20mm}
+
+\setlist[itemize]{topsep=0pt,partopsep=1ex,parsep=1ex}
+
+\titleformat{\section}[block]{\Large\bfseries\filcenter}{}{1em}{}
+\titleformat{\subsection}[block]{\large\bfseries\filcenter}{}{1em}{}
+
+\hypersetup{				
+    unicode=true,           
+    pdfkeywords={keyword1} {key2} {key3},
+    colorlinks=true, 
+    urlcolor=blue,
+    linkcolor=black
+}
+
+\setlength{\parindent}{1.3em}
+\setlength{\parskip}{10pt}
+\pagenumbering{gobble}
+
+% figure captions settings
+\captionsetup[figure]{labelfont=bf, justification=centering}
+\renewcommand\thefigure{\thesection.\arabic{figure}}  
+\makeatletter
+\renewcommand{\fnum@figure}{Малюнак \thefigure}
+\makeatother
+
+% table captions settings
+\captionsetup[table]{justification=centering, singlelinecheck=false, font=large}
+\makeatletter
+\renewcommand{\fnum@table}{}
+\makeatother
+\renewcommand\thetable{\thesection.\arabic{table}}  
+\makeatletter
+\renewcommand{\fnum@table}{Табліца \thetable}
+\makeatother
+
+\newcommand{\formQA}[2]{%
+    \noindent \textbf{Q:} #1 \\
+    \textbf{A:} #2
+}
+
+\begin{document}
+    \section{Рэгламент}
+    
+    \subsection{Групавы этап (01 верасня "--- 30 лістапада)}
+
+    Кожны з кожным гуляе матч у фармаце best of 5 (да 3 перамог). Вынікі вызначаюцца па колькасці перамог. 
+    
+    Пры роўнай колькасці перамог у першую чаргу будуць глядзецца:
+    \begin{enumerate}
+        \item Колькасць згуляных матчаў.
+        \item Вынік асабістай гульні.
+        \item Розніца паміж колькасцю выйграных і прайграных партый унутры 3+ чалавек, для якіх трэба вызначыць месца.
+        \item Колькасць выйграных партый унутры 3+ чалавек, для якіх трэба вызначыць месца.
+        \item Агульная розніца паміж колькасцю выйграных і прайграных партый.
+        \item Агульная колькасць выйграных партый.
+        \item Вынік гульні з гульцом, які дакладна заняў $i$ месца, $i = \overline{1, n}$, дзе n "--- колькасць удзельнікаў.
+    \end{enumerate}
+    
+    Калі матч не быў згуляным і нельга усталяваць, хто цалкам у гэтым вінаваты (адхіляўся ад гульні), у табліцу заносіцца лік 0:0, але матч не лічыцца згуляным, у іншым выпадку вінаваты атрымлівае тэхнічную паразу 0:3.
+    
+    \subsection{Плэй-оф (01-31 снежня)}
+    
+    У плэй-оф выходзяць 6 лепшых гульцоў і гуляюць па наступнай схеме:
+    
+    \begin{itemize}
+        \item Чвэрцьфінал: матч да 3 перамог. Першае і другое месца групы пачынаюць з паўфіналу. 
+        На гэтай стадыі трэцяе месца гуляе з шостым, чацвёртае "--- з пятым.
+        \item Паўфінал: матч да 4 перамог. Пераможца пары 3-6 гуляе з другім месцам, пераможца 4-5 "--- з першым.
+        \item Фінал: серыя да двух перамог, кожны матч гуляецца да трох выйграных партый.
+    \end{itemize}
+
+\end{document}
