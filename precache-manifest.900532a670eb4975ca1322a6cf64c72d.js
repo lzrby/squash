@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "4caa2d4d2628091a308af0538c4a1132",
+    "revision": "29646b6e86bbe86b1081c89c1e663bdf",
     "url": "/squash/index.html"
   },
   {
-    "revision": "b3aea57d6a35431e1519",
+    "revision": "662ab140b7b0842d71a4",
     "url": "/squash/static/css/main.8ccecffa.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/squash/static/js/2.b41502e9.chunk.js"
   },
   {
-    "revision": "b3aea57d6a35431e1519",
-    "url": "/squash/static/js/main.f1ee80e3.chunk.js"
+    "revision": "662ab140b7b0842d71a4",
+    "url": "/squash/static/js/main.92cc614a.chunk.js"
   },
   {
     "revision": "792a261a8f1d54d1ce6e",
