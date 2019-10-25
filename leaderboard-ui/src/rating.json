@@ -1,10 +1,10 @@
 [
   {
-    "name": "lucky_looser",
-    "rating": 1728,
-    "sets": 170,
-    "sets_won": 133,
-    "prev_rating": 1708
+    "name": "vanyann",
+    "rating": 1589,
+    "sets": 12,
+    "sets_won": 10,
+    "prev_rating": 1400
   },
   {
     "name": "klicunou",
@@ -12,6 +12,20 @@
     "sets": 76,
     "sets_won": 54,
     "prev_rating": 1557
+  },
+  {
+    "name": "lucky_looser",
+    "rating": 1557,
+    "sets": 180,
+    "sets_won": 137,
+    "prev_rating": 1728
+  },
+  {
+    "name": "opagrek",
+    "rating": 1507,
+    "sets": 6,
+    "sets_won": 6,
+    "prev_rating": 1400
   },
   {
     "name": "drapegnik",
@@ -28,13 +42,6 @@
     "prev_rating": 1437
   },
   {
-    "name": "rubanau",
-    "rating": 1426,
-    "sets": 31,
-    "sets_won": 16,
-    "prev_rating": 1426
-  },
-  {
     "name": "vladdeykun",
     "rating": 1365,
     "sets": 22,
@@ -49,6 +56,13 @@
     "prev_rating": 1321
   },
   {
+    "name": "rubanau",
+    "rating": 1319,
+    "sets": 37,
+    "sets_won": 16,
+    "prev_rating": 1426
+  },
+  {
     "name": "unikalas",
     "rating": 1318,
     "sets": 45,
@@ -60,13 +74,13 @@
     "rating": 1287,
     "sets": 45,
     "sets_won": 11,
-    "prev_rating": 1246
+    "prev_rating": 1287
   },
   {
     "name": "iraborsch",
-    "rating": 1098,
-    "sets": 73,
+    "rating": 1080,
+    "sets": 79,
     "sets_won": 8,
-    "prev_rating": 1158
+    "prev_rating": 1098
   }
 ]
