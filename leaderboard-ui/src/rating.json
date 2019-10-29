@@ -7,18 +7,25 @@
     "prev_rating": 1649
   },
   {
-    "name": "vanyann",
-    "rating": 1593,
-    "sets": 29,
-    "sets_won": 21,
-    "prev_rating": 1593
-  },
-  {
     "name": "lucky_looser",
     "rating": 1589,
     "sets": 189,
     "sets_won": 145,
-    "prev_rating": 1557
+    "prev_rating": 1589
+  },
+  {
+    "name": "vanyann",
+    "rating": 1554,
+    "sets": 39,
+    "sets_won": 27,
+    "prev_rating": 1593
+  },
+  {
+    "name": "klicunou",
+    "rating": 1487,
+    "sets": 102,
+    "sets_won": 63,
+    "prev_rating": 1449
   },
   {
     "name": "drapegnik",
@@ -26,13 +33,6 @@
     "sets": 37,
     "sets_won": 23,
     "prev_rating": 1464
-  },
-  {
-    "name": "klicunou",
-    "rating": 1449,
-    "sets": 92,
-    "sets_won": 59,
-    "prev_rating": 1449
   },
   {
     "name": "bg_grab",
@@ -67,7 +67,7 @@
     "rating": 1285,
     "sets": 54,
     "sets_won": 15,
-    "prev_rating": 1318
+    "prev_rating": 1285
   },
   {
     "name": "rubanau",
