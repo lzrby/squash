@@ -191,4 +191,4 @@ def end(message):
     bot.send_message(message.chat.id, message_text, disable_notification=True)
 
 
-bot.polling()
+bot.polling(none_stop=True)

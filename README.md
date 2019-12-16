@@ -6,20 +6,11 @@
 
 ## setup
 
-- Install pip(pip3) using your package manager.
-- `pip install -r bot/requirements.txt` for required packages.
+- install `python3` & `node` using your package manager.
+- `make install` for required packages.
 
 ## scripts
 
-### get ratings
-
-- Run from terminal at repo root: `./bot/get_ratings.py`. This will update all json data for deployment.
-
-### ui
-
-- `npm run deploy` to update rating on [lzrby.github.io/squash](http://lzrby.github.io/squash)
-
-### bot
-
-- `python bot/main.py`
-- on server: `sudo python3.7 bot/main.py &amp;`
+- `make rating` to update all `json` data for deployment.
+- `make deploy` to update rating on [lzrby.github.io/squash](http://lzrby.github.io/squash)
+- `make start` to run [telegram bot](https://t.me/lzrsquashbot)
