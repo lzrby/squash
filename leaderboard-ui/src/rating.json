@@ -1,17 +1,17 @@
 [
   {
+    "name": "lucky_looser",
+    "rating": 1694,
+    "sets": 219,
+    "sets_won": 170,
+    "prev_rating": 1638
+  },
+  {
     "name": "opagrek",
     "rating": 1649,
     "sets": 20,
     "sets_won": 18,
     "prev_rating": 1649
-  },
-  {
-    "name": "lucky_looser",
-    "rating": 1638,
-    "sets": 213,
-    "sets_won": 164,
-    "prev_rating": 1584
   },
   {
     "name": "vanyann",
@@ -36,10 +36,10 @@
   },
   {
     "name": "bg_grab",
-    "rating": 1432,
-    "sets": 124,
+    "rating": 1376,
+    "sets": 130,
     "sets_won": 49,
-    "prev_rating": 1437
+    "prev_rating": 1432
   },
   {
     "name": "vladdeykun",
@@ -74,7 +74,7 @@
     "rating": 1238,
     "sets": 61,
     "sets_won": 13,
-    "prev_rating": 1287
+    "prev_rating": 1238
   },
   {
     "name": "iraborsch",
