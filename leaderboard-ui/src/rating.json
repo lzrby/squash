@@ -1,10 +1,10 @@
 [
   {
     "name": "lucky_looser",
-    "rating": 1694,
-    "sets": 219,
-    "sets_won": 170,
-    "prev_rating": 1638
+    "rating": 1713,
+    "sets": 226,
+    "sets_won": 176,
+    "prev_rating": 1694
   },
   {
     "name": "opagrek",
@@ -29,9 +29,9 @@
   },
   {
     "name": "drapegnik",
-    "rating": 1464,
-    "sets": 37,
-    "sets_won": 23,
+    "rating": 1445,
+    "sets": 44,
+    "sets_won": 24,
     "prev_rating": 1464
   },
   {
@@ -39,7 +39,7 @@
     "rating": 1376,
     "sets": 130,
     "sets_won": 49,
-    "prev_rating": 1432
+    "prev_rating": 1376
   },
   {
     "name": "vladdeykun",
