@@ -1,10 +1,10 @@
 [
   {
-    "name": "lucky_looser",
-    "rating": 1713,
-    "sets": 226,
-    "sets_won": 176,
-    "prev_rating": 1694
+    "name": "vanyann",
+    "rating": 1650,
+    "sets": 57,
+    "sets_won": 42,
+    "prev_rating": 1573
   },
   {
     "name": "opagrek",
@@ -14,11 +14,11 @@
     "prev_rating": 1649
   },
   {
-    "name": "vanyann",
-    "rating": 1573,
-    "sets": 48,
-    "sets_won": 34,
-    "prev_rating": 1573
+    "name": "lucky_looser",
+    "rating": 1589,
+    "sets": 235,
+    "sets_won": 180,
+    "prev_rating": 1713
   },
   {
     "name": "klicunou",
@@ -32,7 +32,7 @@
     "rating": 1445,
     "sets": 44,
     "sets_won": 24,
-    "prev_rating": 1464
+    "prev_rating": 1445
   },
   {
     "name": "bg_grab",
@@ -56,6 +56,13 @@
     "prev_rating": 1311
   },
   {
+    "name": "uladbohdan",
+    "rating": 1285,
+    "sets": 71,
+    "sets_won": 15,
+    "prev_rating": 1238
+  },
+  {
     "name": "unikalas",
     "rating": 1285,
     "sets": 54,
@@ -68,13 +75,6 @@
     "sets": 48,
     "sets_won": 17,
     "prev_rating": 1281
-  },
-  {
-    "name": "uladbohdan",
-    "rating": 1238,
-    "sets": 61,
-    "sets_won": 13,
-    "prev_rating": 1238
   },
   {
     "name": "iraborsch",
