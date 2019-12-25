@@ -1,16 +1,9 @@
 [
   {
-    "name": "vanyann",
-    "rating": 1650,
-    "sets": 57,
-    "sets_won": 42,
-    "prev_rating": 1573
-  },
-  {
     "name": "opagrek",
-    "rating": 1649,
-    "sets": 20,
-    "sets_won": 18,
+    "rating": 1731,
+    "sets": 29,
+    "sets_won": 25,
     "prev_rating": 1649
   },
   {
@@ -18,7 +11,14 @@
     "rating": 1589,
     "sets": 235,
     "sets_won": 180,
-    "prev_rating": 1713
+    "prev_rating": 1589
+  },
+  {
+    "name": "vanyann",
+    "rating": 1567,
+    "sets": 66,
+    "sets_won": 44,
+    "prev_rating": 1650
   },
   {
     "name": "klicunou",
@@ -60,7 +60,7 @@
     "rating": 1285,
     "sets": 71,
     "sets_won": 15,
-    "prev_rating": 1238
+    "prev_rating": 1285
   },
   {
     "name": "unikalas",
