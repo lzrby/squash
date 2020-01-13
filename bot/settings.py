@@ -5,7 +5,7 @@ load_dotenv()
 
 token = os.getenv('TG_TOKEN')
 groups = [-325409771, -303486770]
-admins = ['drapegnik', 'klicunou']
+admins = ['drapegnik', 'klicunou', 'uladbohdan']
 active_tournaments = {'LZR Open': 'group stage'}
 
 
