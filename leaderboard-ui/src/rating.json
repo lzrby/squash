@@ -7,18 +7,18 @@
     "prev_rating": 1731
   },
   {
+    "name": "lucky_looser",
+    "rating": 1568,
+    "sets": 271,
+    "sets_won": 206,
+    "prev_rating": 1564
+  },
+  {
     "name": "vanyann",
     "rating": 1567,
     "sets": 66,
     "sets_won": 44,
     "prev_rating": 1567
-  },
-  {
-    "name": "lucky_looser",
-    "rating": 1562,
-    "sets": 265,
-    "sets_won": 201,
-    "prev_rating": 1564
   },
   {
     "name": "klicunou",
@@ -50,9 +50,9 @@
   },
   {
     "name": "lisouski",
-    "rating": 1313,
-    "sets": 46,
-    "sets_won": 12,
+    "rating": 1307,
+    "sets": 52,
+    "sets_won": 13,
     "prev_rating": 1311
   },
   {
