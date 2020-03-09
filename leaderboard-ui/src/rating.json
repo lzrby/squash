@@ -8,10 +8,10 @@
   },
   {
     "name": "lucky_looser",
-    "rating": 1597,
-    "sets": 277,
-    "sets_won": 212,
-    "prev_rating": 1568
+    "rating": 1609,
+    "sets": 290,
+    "sets_won": 224,
+    "prev_rating": 1597
   },
   {
     "name": "vanyann",
@@ -50,9 +50,9 @@
   },
   {
     "name": "lisouski",
-    "rating": 1307,
-    "sets": 52,
-    "sets_won": 13,
+    "rating": 1338,
+    "sets": 63,
+    "sets_won": 18,
     "prev_rating": 1307
   },
   {
@@ -74,13 +74,13 @@
     "rating": 1256,
     "sets": 79,
     "sets_won": 18,
-    "prev_rating": 1285
+    "prev_rating": 1256
   },
   {
     "name": "iraborsch",
-    "rating": 1081,
-    "sets": 85,
+    "rating": 1038,
+    "sets": 95,
     "sets_won": 9,
-    "prev_rating": 1080
+    "prev_rating": 1081
   }
 ]
